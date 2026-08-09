@@ -2,23 +2,32 @@
 
 import logging
 import time
+import sys
 import re
 
 # Docs:
 #   https://www.mediawiki.org/wiki/Manual:Pywikibot/Installation
 #   https://doc.wikimedia.org/pywikibot/master/api_ref/pywikibot.page.html
 import pywikibot
-
 # Credentials are stored in user-config.py
 site = pywikibot.Site()
 
-LOG_FILE = "dw-redirect.log" # Relative to the current directory.
+from util_nouns import restore_proper_nouns
+
+# Usage:
+    # - Configure settings below
+    # - Run this script to create case-aware redirects
+
+LOG_FILE = "pwb_redirect.log" # Relative to the current directory.
 
 DRY_RUN = True # True = don't actually save anything, just log.
 LIMIT = 0 # If greater than 0: save only N changes then exit.
 
-CATEGORY = False # String to filter, or False to use allpages.
-START = "Foo" # Alphabetical location to resume from, or leave blank for all.
+# These will all be ignored if a filename is passed in as the first argument to the script.
+CATEGORY = False # String to filter, or False to use recent/allpages.
+RECENT = False # True to start from recently created, or False to start alphabetically.
+RECENT_SIZE = 500 # This many pages will be pre-loaded before beginning.
+START = "Ca" # Alphabetical location to resume from, or leave blank for all.
 
 HALT_PAGE = pywikibot.Page(site, "User talk:ChxPotatoCurry-Bot")
 HALT_STRING = "AWB shutdown" # If this text is seen on HALT_PAGE, bot will halt.
@@ -35,6 +44,32 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
+
+def get_articles():
+    if len(sys.argv) > 2:
+        print(f"Usage: `{sys.argv[0]} <file.txt>`")
+        sys.exit(1)
+
+    if len(sys.argv) == 2:
+        list = []
+        with open(sys.argv[1], encoding="utf-8") as f:
+            for line in f:
+                list.append(pywikibot.Page(site, line))
+        return list
+
+    # `Main` namespace is `0`
+    if CATEGORY:
+        return pywikibot.Category(site, CATEGORY).articles(namespaces=0, recurse=True, startprefix=START)
+
+    if RECENT:
+        list = []
+        for entry in site.recentchanges(changetype='new', namespaces=0):
+            list.append(pywikibot.Page(site, entry['title']))
+            if len(list) >= RECENT_SIZE:
+                break
+        return list
+
+    return site.allpages(namespace=0, start=START)
 
 # Regular expressions to skip some things:
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
@@ -72,6 +107,12 @@ def should_skip_exists(redirect_page, original_title, lower_title):
         return True
     return False
 
+def should_skip_deleted(original_page):
+    if RECENT and not original_page.exists():
+        logging.info(f"SKIP: recent page already deleted: {original_page.title()}")
+        return True
+    return False
+
 def should_skip_subpage(original_title):
     if "/" in original_title:
         logging.info(f"SKIP: subpage: {original_title}")
@@ -89,12 +130,7 @@ def should_skip_noop(original_title, lower_title):
 def main():
     logging.info("Statistics:\n%s\n", site.siteinfo["statistics"])
 
-    # `Main` namespace is `0`
-    articles = (
-        pywikibot.Category(site, CATEGORY).articles(namespaces=0, recurse=True, startprefix=START)
-        if CATEGORY
-        else site.allpages(namespace=0, start=START)
-    )
+    articles = get_articles()
 
     created = 0
     skipped = 0
@@ -105,9 +141,9 @@ def main():
     logging.info(f"\tDry run:\t{DRY_RUN}")
     logging.info(f"\tLimit:\t\t{LIMIT}")
 
-    for page in articles:
-        original_title = page.title()
-        lower_title = original_title.capitalize() # Sentence case
+    for original_page in articles:
+        original_title = original_page.title()
+        lower_title = restore_proper_nouns(original_title.capitalize()) # Sentence case
 
         # Quick heuristics to skip many pages before we even need to load them.
         if (
@@ -123,18 +159,19 @@ def main():
         # Slower heuristics.
         if (
             should_skip_exists(redirect_page, original_title, lower_title)
-            or should_skip_category(page)
+            or should_skip_deleted(original_page)
+            or should_skip_category(original_page)
         ):
             skipped += 1
             continue
 
         # Follow redirects so we don't create a double redirect.
-        if page.isRedirectPage():
+        if original_page.isRedirectPage():
             try:
-                new_title = page.getRedirectTarget().title()
+                new_title = original_page.getRedirectTarget().title()
             except pywikibot.exceptions.UnsupportedPageError:
                 # We can't get a Page object to the Special namespace, and that's okay.
-                logging.info(f"SKIP resolving redirect to unsupported namespace: {page.title()}")
+                logging.info(f"SKIP resolving redirect to unsupported namespace: {original_page.title()}")
                 continue
             logging.info(f"RESOLVED: redirect {original_title} -> {new_title}")
             original_title = new_title
@@ -159,7 +196,7 @@ def main():
             created += 1
         except Exception as e:
             errors += 1
-            logging.exception(f"ERROR creating {lower_title} -> {original_title}: {e}")
+            logging.exception(f"ERROR saving {lower_title} -> {original_title}: {e}")
 
         if LIMIT > 0 and created >= LIMIT:
             logging.info("LIMIT enabled; stopping here")
