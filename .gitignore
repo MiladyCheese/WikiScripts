@@ -14,6 +14,11 @@ throttle.ctrl
 *.lnk
 
 # User junk
+archive/
 wip */
 *.log
 pwb_fix_doubles_list.txt
+*-narrow.txt
+*-narrow.xml
+*-broad.txt
+*-broad.xml
