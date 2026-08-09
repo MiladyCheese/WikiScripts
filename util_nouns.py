@@ -6,52 +6,19 @@ p = inflect.engine()
 # Capitalisation philosophy:
 # https://discord.com/channels/1356178382106132570/1356180539522023498/1535338364667043840
 
-# Note when creating a list of articles:
-    # Add the following (or create real redirects):
-        # Critical Swing
-        # Critical Chance
-        # Critical Hit
-        # Critical
-        # Progress
-        # Landmarks
-        # Body Type
-        # Male
-        # Female
-        # One-Handed
-        # Two-Handed
-        # Crystal Helix
-        # Crystal Helix Remains
-        # Ingredients
-
-    # Remove the following for faster speed:
+# Note when creating a list of articles (NEW):
+    # Remove some pages for sanity:
+        # */Sound effects
+        # */* Transcript
+        # DW:*
+        # RS:*
         # All 365 calendar dates ("1 January" etc)
+        # Non-english e.g. 玻璃
 
-    # Remove the following for fewer false-positives:
-        # God
-        # Infusion (part of both recipe names and perks)
-        # Infusions
-        # N/A
-        # Kara
-        # Swamp
-        # Sand
-        # Sands
-        # Saga
-        # Temple
-        #   "The..." location words on their own:
-        # Bastion
-        # Cathedral
-        # Courtyard
-        # Crypt
-        # Demon Gate
-        # Garrison
-        # Grand Hall
-        # Lake
-        # Library
-        # Menagerie
-        # Nexus
-        # Pastures
+        # As of 2026-08-09, there are 4873 actual articles to match
+        # after removing above + removing case duplicates.
 
-    # Sort by descending line length (so e.g. Willow Tree comes before Tree)
+    # Add any other non-article phrases you want to decapitalise, such as "Ingredients"
 
 # Always preserve these capitalisations.
 # Each item should be either a string "noun" or array of [regex match, "noun"].
@@ -104,7 +71,7 @@ PROPER_NOUNS = [
     "Kalistrakthen Kara",
     "Keep of Blue Flames",
     "Kletterbuja Kara",
-    "Lake of Lost Souls", # Overridden by "Lost Soul" :(
+    "Lake of Lost Souls",
     "Lougrim's Shrine",
     "Nightmare Crucible",
     "Nightmare",
@@ -781,6 +748,14 @@ PROPER_NOUNS = [
     "Maximum Effishiency",
     "Amazingly Acrobatic",
 
+    # Consoles
+    # not Steam, too generic?
+    "XBOX",
+    "Series X",
+    [r"\bX and S\b", "X and S"],
+    [r"\bX/S\b", "X/S"],
+    "PlayStation",
+
     # Acronyms
     "NPC",
     "PvP",
@@ -792,10 +767,6 @@ PROPER_NOUNS = [
     "God War",
     "Soulscourge",
     "Creative Mode",
-    "XBOX",
-    "Series X",
-    [r"\bX and S\b", "X and S"],
-    "PlayStation",
     [r"(\w)/Level up table", "\\1/Level up table"],
     "MOUNT:",
     "PATTERN:",
