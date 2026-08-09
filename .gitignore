@@ -15,3 +15,4 @@ throttle.ctrl
 
 # User junk
 wip */
+*.log
