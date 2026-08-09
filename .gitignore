@@ -1,0 +1,17 @@
+# PWB configs
+user-config.py
+user-password.cfg
+
+# PWB junk
+logs/
+families/
+apicache/
+__pycache__/
+throttle.ctrl
+*.lwp
+
+# Windows stuff
+*.lnk
+
+# User junk
+wip */
