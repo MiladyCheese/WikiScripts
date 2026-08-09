@@ -1,5 +1,8 @@
 import re
 
+import inflect
+p = inflect.engine()
+
 # Capitalisation philosophy:
 # https://discord.com/channels/1356178382106132570/1356180539522023498/1535338364667043840
 
@@ -843,3 +846,33 @@ def restore_proper_nouns(text):
     for pattern, replacement in IMPROPER_NOUN_PATTERNS:
         text = pattern.sub(replacement, text)
     return text
+
+# This method fixes the weird behavior of inflect, e.g.
+#    >>> p.singular_noun("cows")
+#    'cow'
+#    >>> p.singular_noun("cow")
+#    False # wrong
+def _singular(word):
+    return p.singular_noun(word) or word
+
+def singular(text):
+    tokens = text.split()
+    last_word = tokens.pop()
+    tokens.append(_singular(last_word))
+    return " ".join(tokens)
+
+# This method fixes the weird behavior of inflect, e.g.
+#    >>> p.plural_noun("cow")
+#    'cows'
+#    >>> p.plural_noun("cows")
+#    'cowss' # wrong
+def _plural(word):
+    if p.singular_noun(word): # returns False if already singular
+        return word # already plural
+    return p.plural_noun(word)
+
+def plural(text):
+    tokens = text.split()
+    last_word = tokens.pop()
+    tokens.append(_plural(last_word))
+    return " ".join(tokens)
