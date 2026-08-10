@@ -15,7 +15,7 @@ p = inflect.engine()
         # All 365 calendar dates ("1 January" etc)
         # Non-english e.g. 玻璃
 
-        # As of 2026-08-09, there are 4873 actual articles to match
+        # As of 2026-08-09, there are 4873 actual articles to match on DW
         # after removing above + removing case duplicates.
 
     # Add any other non-article phrases you want to decapitalise, such as "Ingredients"
@@ -149,6 +149,8 @@ PROPER_NOUNS = [
     "Brakka's Folly",
     "Grand Hall",
     "Kharid", # ...ian
+    "Wizard's Guild",
+    "Wizard's Tower",
 
     # Shops
     "Death's Exchange",
@@ -217,6 +219,11 @@ PROPER_NOUNS = [
     "November",
     "December",
 
+    # Events
+    "Anima Twist",
+    "Human-Garou War",
+    "Day of Purple Feathers",
+
     # Gods
     "Armadyl",
     "Bandos",
@@ -225,6 +232,35 @@ PROPER_NOUNS = [
     "Zamorak",
     "Icthlarin",
     "Icthlarian",
+
+    # Group/tribe names
+    # (not races: dragonkin, garou, goblin, kalphite all lowercase)
+    "Amalgamated",
+    "Dorgeshuun",
+    "Black Knight",
+    "White Knight",
+    "Lunar Garou",
+    "Moon Garou",
+    "Elder God",
+    "Cabal",
+    "Children of Shadows",
+    "Bronze Advisors",
+    "Glass Knives",
+    "Rasmodels",
+
+    # TzHaar creatures, for some reason: https://dragonwilds.runescape.wiki/w/KotHaar
+    "TzHaar",
+    "KotHaar",
+    "KotHaar-Xil",
+    "KotHaar-Kal",
+    "KotHaar-Ket",
+    "KotHaar-Hur",
+    "Tok-Xil",
+
+    # Weapon eponyms
+    "Swingslash",
+    "Skullsplitter",
+    "Titan's Wrath",
 
     # Other names (often first names from below)
     "Elidinis",
@@ -236,25 +272,27 @@ PROPER_NOUNS = [
     "General Velgar",
     "Victoria",
     "Grim Reaper",
+    "Harold Death Esquire",
+    "Postie Pete",
+    [r"\bPete\b", "Pete"],
     "Caratacus",
     "Caratacus the Elder",
     "Karibdos",
     [r"\bAva\b", "Ava"], # Careful, it's short
-    "Anima Twist",
     "Wild Knight",
     "Fire-Touched",
-    "Children of Shadows",
     "Valerius",
     "Delrom",
     "Manktongue",
     "Pulpknuckle",
     "Slopfinger",
     "Xikotal",
-    "Postie Pete",
-    [r"\bPete\b", "Pete"],
     "Iasadair - The Merchant",
-    "Beartach - The Merchant",
     "Iasadair",
+    "Beartach - The Merchant",
+    "Beartach",
+    "Domri - The Merchant",
+    "Domri",
     "Muncher",
     "Wise Old Man",
     "Archmage Alric",
@@ -278,7 +316,9 @@ PROPER_NOUNS = [
     "Captain Rainer",
     "Commander Zilyana",
     "Zilyana",
-    "Avisk Crystal",
+    "Efina - The Lost",
+    "Efina",
+    "Dearg Due",
 
     # List of NPCs: https://dragonwilds.runescape.wiki/w/Non-player_character?action=edit
     "Abraxus",
@@ -297,12 +337,13 @@ PROPER_NOUNS = [
     "Spitfoot",
     "Spittletoe",
     "Snotpit",
-    "Offalfoot",
+    "OffalFoot",
     "Summoner Flament",
     "Vannaka",
     "Warren",
     "Wormelbow",
     "Zanik",
+    "Farmer Fred",
 
     # NPCs that do not appear in-game
     "Aidan",
@@ -432,33 +473,6 @@ PROPER_NOUNS = [
     "RuneFest",
     "Alpha Test",
 
-    # Group/tribe names
-    # (not races: dragonkin, garou, goblin, kalphite all lowercase)
-    "Amalgamated",
-    "Dorgeshuun",
-    "Black Knight",
-    "White Knight",
-    "Lunar Garou",
-    "Moon Garou",
-    "Elder God",
-    "Cabal",
-    "Bronze Advisors",
-    "Glass Knives",
-
-    # TzHaar creatures, for some reason: https://dragonwilds.runescape.wiki/w/KotHaar
-    "TzHaar",
-    "KotHaar",
-    "KotHaar-Xil",
-    "KotHaar-Kal",
-    "KotHaar-Ket",
-    "KotHaar-Hur",
-    "Tok-Xil",
-
-    # Weapon eponyms
-    "Swingslash",
-    "Skullsplitter",
-    "Titan's Wrath",
-
     # Special attacks: TODO
     "Abyssal Snare",
 
@@ -559,8 +573,10 @@ PROPER_NOUNS = [
     "Teamonger",
     "Creature Comforts",
     "Adept Culinaromancer",
+    # Agility TODO:
     "Double Jump",
     "Air Dash",
+    "Dark Burrower",
     # RC passives: https://dragonwilds.runescape.wiki/w/Template:Runecrafting?action=edit
     "Summon Elemental Spirits",
     "Runes to Rune Essence",
@@ -589,12 +605,15 @@ PROPER_NOUNS = [
     # Mining: TODO
     "Ultimate Burst",
     "Ingot Weight Reduction",
+    "Gem Prospector",
+    "Accelerated Veins",
     # Fishing: TODO
     "Troubled Waters",
     # Farming: TODO
     "Overgrowth Aura",
     # Artisan: TODO
     "Bark to Bones",
+    "Decorated Adventurer",
     # Cooking: TODO
     "Amateur Culinaromancer",
     "Culinary Confidence",
@@ -604,20 +623,22 @@ PROPER_NOUNS = [
     "Sacred Geometry",
 
     # Status effects: https://dragonwilds.runescape.wiki/w/Template:Statuses?action=edit
-    "Fresh Start",
-    # "Shelter",
-    "Cosiness",
-    "Bleed",
-    "Burning",
-    "Encumbered",
-    "Fatigue",
-    "Poison",
-    "Shocked",
-    "Soulscourge",
-    "Water Wading",
-    "Wither",
-    "Scorch",
-    "Over Eating",
+    # Many of these are also used in sentences like "withered" so should not be caps.
+    [r"\bFresh Start\b", "Fresh Start"],
+    [r"(?<!a )\bShelter\b", "Shelter"], # This may be too broad, "the Shelter perk" vs "the shelter will"
+    [r"\bCosiness\b", "Cosiness"],
+    [r"\bBleed\b", "Bleed"],
+    [r"\bBurning\b", "Burning"],
+    [r"\bEncumbered\b", "Encumbered"],
+    [r"\bFatigue\b", "Fatigue"],
+    [r"\bPoison\b(?! ichor| rock)", "Poison"],
+    [r"\bShocked\b", "Shocked"],
+    [r"\bSoulscourge\b", "Soulscourge"],
+    [r"\bWater Wading\b", "Water Wading"],
+    [r"\bWither\b", "Wither"],
+    [r"\bScorch\b", "Scorch"],
+    [r"\bOver Eating\b", "Over Eating"],
+    [r"\bLifeward\b", "Lifeward"],
 
     # Book titles: https://dragonwilds.runescape.wiki/w/Template:Tomes and https://dragonwilds.runescape.wiki/w/Category:Quest_Items
     "The Pride of the Avernic",
@@ -654,6 +675,10 @@ PROPER_NOUNS = [
     "Tome of the Dragon Slayer",
     "Tome of the Titan",
     "Tome of the Undying",
+    # More:
+    "The Wolf and the Goddess",
+    "The Tale of the Ghost Wolves",
+    "The Gospel of Zamorak",
 
     # Music tracks: https://dragonwilds.runescape.wiki/w/Category:Music_tracks
     "A Wild World To Tame",
@@ -748,13 +773,19 @@ PROPER_NOUNS = [
     "Maximum Effishiency",
     "Amazingly Acrobatic",
 
-    # Consoles
+    # Consoles/tech
     # not Steam, too generic?
     "XBOX",
     "Series X",
     [r"\bX and S\b", "X and S"],
     [r"\bX/S\b", "X/S"],
     "PlayStation",
+    "Shockbyte",
+    [r"\bPC\b", "PC"],
+    "Windows",
+    [r"\bMac\b", "Mac"],
+    "Macintosh",
+    "Linux",
 
     # Acronyms
     "NPC",
@@ -771,10 +802,14 @@ PROPER_NOUNS = [
     "MOUNT:",
     "PATTERN:",
     "PLAN:",
+    " of ",
+    "'s ",
 ]
 
 # But then undo these false-positive capitalisations.
 # Each item should be either a string "noun" or array of [regex match, "noun"].
+#
+# TODO: These should now be incorporated above as negative regex.
 IMPROPER_NOUNS = [
     "cooking range",
     [r"cooking pot\b", "cooking pot"], # Not "Cooking potion"

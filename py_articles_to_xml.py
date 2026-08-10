@@ -24,6 +24,11 @@ def escape_xml(text):
 def escape_regex(text):
     return re.escape(text)
 
+# Unused except when undoing things like disambiguation pages
+def title_case(text):
+    text = restore_proper_nouns(text.title())
+    return text
+
 def sentence_case(text):
     text = restore_proper_nouns(text.lower())
     text = text[0].upper() + text[1:]
@@ -56,7 +61,7 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)\\]&amp;'"`]) (\\()?\\[\\[{escaped}\\]\\]</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) (\\()?\\[\\[{escaped}\\]\\]</Find>
         <Replace> $1[[{lower_case}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -66,7 +71,7 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)\\]&amp;'"`]) (\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) (\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
         <Replace> $1[[{lower_case}|{lower_case_2}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -76,8 +81,8 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)\\]&amp;'"`]) (\\()?\\[\\[{escaped}\\|({escaped_1})\\]\\]</Find>
-        <Replace> $1[[{lower_case}|{lower_case_1}]]</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) (\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]</Find>
+        <Replace> $1[[$2|{lower_case_1}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -89,8 +94,8 @@ TEMPLATE_NARROW = """\
 
 ADDITIONAL_NARROW = """\
       <Replacement>
-        <Find>\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
-        <Replace>[[Power level]]$1</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) \\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
+        <Replace> [[power level]]$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -99,8 +104,8 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)\\]&amp;'"`]) \\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
-        <Replace> [[power level]]$1</Replace>
+        <Find>\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
+        <Replace>[[Power level]]$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -118,9 +123,21 @@ ADDITIONAL_NARROW = """\
         <BeforeOrAfter>false</BeforeOrAfter>
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
+      <Replacement>
+        <Find>\\{\\{(Disambig)\\}\\}</Find>
+        <!-- Fake replacement to make this more obvious. Disambiguation list caps should not be lowered. -->
+        <Replace>{{$1}} ⚠⚠⚠</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 # Broad replacements should have AWB "ignore links etc." turned ON or they'll break things.
+# Note that link hiding replaces [[link]] with ⌊⌊⌊⌊link⌋⌋⌋⌋ which is still usable as a negative match.
 TEMPLATE_BROAD = """\
       <Replacement>
         <Find>\\b{escaped_1}\\b</Find>
@@ -143,7 +160,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)\\]&amp;'"`]) ('+|\\()?{escaped_1}\\b</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) ('+|\\()?{escaped_1}\\b</Find>
         <Replace> ${{1}}{lower_case_1}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -153,7 +170,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)\\]&amp;'"`]) ('+|\\()?{escaped_2}\\b</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) ('+|\\()?{escaped_2}\\b</Find>
         <Replace> ${{1}}{lower_case_2}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -164,18 +181,7 @@ TEMPLATE_BROAD = """\
       </Replacement>
 """
 
-# Fix a few things that are hard to do right (e.g. stone should be lowercase and matches later after Dreaming Stone).
 ADDITIONAL_BROAD = """\
-      <Replacement>
-        <Find>\\bdreaming stone\\b</Find>
-        <Replace>Dreaming Stone</Replace>
-        <Comment />
-        <IsRegex>true</IsRegex>
-        <Enabled>true</Enabled>
-        <Minor>true</Minor>
-        <BeforeOrAfter>false</BeforeOrAfter>
-        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
-      </Replacement>
 """
 
 def main():

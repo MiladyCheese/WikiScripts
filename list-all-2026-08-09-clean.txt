@@ -932,6 +932,7 @@ gargoyle
 garrison
 gemstone
 gielinor
+god wars
 godsword
 gold bar
 gold ore
