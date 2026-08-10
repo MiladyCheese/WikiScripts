@@ -61,8 +61,8 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) (\\()?\\[\\[{escaped}\\]\\]</Find>
-        <Replace> $1[[{lower_case}]]</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)(\\()?\\[\\[{escaped}\\]\\]</Find>
+        <Replace>$1$2[[{lower_case}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -71,8 +71,8 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) (\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
-        <Replace> $1[[{lower_case}|{lower_case_2}]]</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)(\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
+        <Replace>$1$2[[{lower_case}|{lower_case_2}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -81,8 +81,8 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) (\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]</Find>
-        <Replace> $1[[$2|{lower_case_1}]]</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)(\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]</Find>
+        <Replace>$1$2[[$3|{lower_case_1}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -94,8 +94,8 @@ TEMPLATE_NARROW = """\
 
 ADDITIONAL_NARROW = """\
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) \\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
-        <Replace> [[power level]]$1</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
+        <Replace>$1[[power level]]$2</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -160,8 +160,8 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) ('+|\\()?{escaped_1}\\b</Find>
-        <Replace> ${{1}}{lower_case_1}</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)('+|\\()?{escaped_1}\\b</Find>
+        <Replace>$1${{2}}{lower_case_1}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -170,8 +170,8 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) ('+|\\()?{escaped_2}\\b</Find>
-        <Replace> ${{1}}{lower_case_2}</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)('+|\\()?{escaped_2}\\b</Find>
+        <Replace>$1${{2}}{lower_case_2}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -181,7 +181,58 @@ TEMPLATE_BROAD = """\
       </Replacement>
 """
 
+# Plural version of Attack skill is impossible to regex away in nouns list
 ADDITIONAL_BROAD = """\
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)Attacks</Find>
+        <Replace>$1attacks</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)Attack (it|them|her|him|the|with|from)</Find>
+        <Replace>$1attack $2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)Ranged(,)? (and|or) Magic</Find>
+        <Replace>$1ranged$2 $3 magic</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)Magic(,)? (and|or) Ranged</Find>
+        <Replace>$1magic$2 $3 ranged</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(from|while) Mining</Find>
+        <Replace>$1 mining</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 def main():

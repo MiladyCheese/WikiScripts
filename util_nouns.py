@@ -20,22 +20,22 @@ p = inflect.engine()
 
     # Add any other non-article phrases you want to decapitalise, such as "Ingredients"
 
-# Always preserve these capitalisations.
+# Always preserve these capitalisations in article names.
 # Each item should be either a string "noun" or array of [regex match, "noun"].
 PROPER_NOUNS = [
-    # Skills
-    "Agility",
-    "Artisan",
-    "Attack",
-    "Construction",
-    "Cooking",
-    "Farming",
-    "Fishing",
-    "Magic",
-    "Mining",
-    [r"(?<!de)Ranged", "Ranged"],
-    "Runecraft", # "ing" left out for wider match
-    "Woodcutting",
+    # Skills, which are often sub-words of other pages (like "magical")
+    [r"\bAgility\b", "Agility"],
+    [r"\bArtisan\b", "Artisan"],
+    [r"(?<!special )\bAttack\b", "Attack"],
+    [r"\bConstruction\b", "Construction"],
+    [r"\bCooking(?! range| pot| potion)\b", "Cooking"],
+    [r"\bFarming(?! plot| tool)\b", "Farming"],
+    [r"\b(?:(?<!net )(?<!rod ))Fishing\b", "Fishing"],
+    [r"\bMagic\b", "Magic"],
+    [r"\bMining\b", "Mining"],
+    [r"\b(?<!de)Ranged\b", "Ranged"],
+    [r"\bRunecrafting\b", "Runecrafting"],
+    [r"\bWoodcutting\b", "Woodcutting"],
     "Cape of Accomplishment",
     "Capes of Accomplishment",
 
@@ -100,6 +100,7 @@ PROPER_NOUNS = [
     "Dowdun",
     "Umbral",
     [r"Sands\b", "Sands"], # Don't match "Sandstone"
+    "Highlands",
     # And agility courses:
     "Chasm Dash",
     "Fractured Ruins",
@@ -573,11 +574,23 @@ PROPER_NOUNS = [
     "Teamonger",
     "Creature Comforts",
     "Adept Culinaromancer",
-    # Agility TODO:
+    # Agility: https://dragonwilds.runescape.wiki/w/Template:Agility?action=edit
     "Double Jump",
+    "Hopper",
+    "Common Burrower",
     "Air Dash",
+    "Breakfall",
+    "Wind Stomp",
+    "Wild Burrower",
+    # "Nomad",
+    "Backpacker",
+    "Greater Breakfall",
     "Dark Burrower",
-    # RC passives: https://dragonwilds.runescape.wiki/w/Template:Runecrafting?action=edit
+    "Desert Burrower",
+    # "Explorer",
+    "Razor-backed Burrower",
+    "Trailblazer",
+    # RC: https://dragonwilds.runescape.wiki/w/Template:Runecrafting?action=edit
     "Summon Elemental Spirits",
     "Runes to Rune Essence",
     "Fire Spirit",
@@ -806,23 +819,6 @@ PROPER_NOUNS = [
     "'s ",
 ]
 
-# But then undo these false-positive capitalisations.
-# Each item should be either a string "noun" or array of [regex match, "noun"].
-#
-# TODO: These should now be incorporated above as negative regex.
-IMPROPER_NOUNS = [
-    "cooking range",
-    [r"cooking pot\b", "cooking pot"], # Not "Cooking potion"
-    "farming plot",
-    "farming tool",
-    "net fishing",
-    "rod fishing",
-    "magical",
-    "Magical Mending",
-    "special attack",
-    "PvP", # Restore lowercase v and/or last capital P in some cases
-]
-
 # Precompile regexes for speed.
 PROPER_NOUN_PATTERNS = [
     (
@@ -835,21 +831,8 @@ PROPER_NOUN_PATTERNS = [
     for noun in PROPER_NOUNS
 ]
 
-IMPROPER_NOUN_PATTERNS = [
-    (
-        re.compile(noun[0], re.IGNORECASE),
-        noun[1],
-    ) if isinstance(noun, list) else (
-        re.compile(re.escape(noun), re.IGNORECASE),
-        noun,
-    )
-    for noun in IMPROPER_NOUNS
-]
-
 def restore_proper_nouns(text):
     for pattern, replacement in PROPER_NOUN_PATTERNS:
-        text = pattern.sub(replacement, text)
-    for pattern, replacement in IMPROPER_NOUN_PATTERNS:
         text = pattern.sub(replacement, text)
     return text
 
