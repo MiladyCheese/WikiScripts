@@ -16,12 +16,21 @@ Elder Kiln
 Kuldra's Saga
 Alpha Test
 Alpha Challenge Cape DLC
+Castle Extra
+River Goddess
+Goddess of the River
+Fishing node
+air
+water
+earth
+fire
 
 God Wars
 Stone of Jas
 Big High War God
 Forbidden Scroll
 High Queen of the Garou
+High Queen
 
 north
 south

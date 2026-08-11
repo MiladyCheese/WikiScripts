@@ -61,7 +61,17 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)(\\()?\\[\\[{escaped}\\]\\]</Find>
+        <Find>\\[\\[{escaped}\\|{escaped_2}\\]\\]</Find>
+        <Replace>[[{sentence_case}|{sentence_case_2}]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)\\]&amp;'"`])( |-)(\\()?\\[\\[{escaped}\\]\\]</Find>
         <Replace>$1$2[[{lower_case}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -71,7 +81,7 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)(\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)\\]&amp;'"`])( |-)(\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
         <Replace>$1$2[[{lower_case}|{lower_case_2}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -81,7 +91,7 @@ TEMPLATE_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)(\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)\\]&amp;'"`])( |-)(\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]</Find>
         <Replace>$1$2[[$3|{lower_case_1}]]</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -94,7 +104,7 @@ TEMPLATE_NARROW = """\
 
 ADDITIONAL_NARROW = """\
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)\\]&amp;'"`])( |-)\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
         <Replace>$1[[power level]]$2</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -124,6 +134,26 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)\\]&amp;'"`]) \\[\\[Garou \\(race\\)\\|Garou\\]\\]</Find>
+        <Replace> [[Garou (race)|garou]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)\\]&amp;'"`]) \\[\\[Dragonkin \\(race\\)\\|Dragonkin\\]\\]</Find>
+        <Replace> [[Dragonkin (race)|dragonkin]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
         <Find>the \\[\\[Player Character\\|Player\\]\\]</Find>
         <Replace>the [[player]]</Replace>
         <Comment />
@@ -133,7 +163,26 @@ ADDITIONAL_NARROW = """\
         <BeforeOrAfter>false</BeforeOrAfter>
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
-      [[Player Character|Player]]
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`]) \\[\\[Ranged\\]\\](,)? (and|or) \\[\\[Magic\\]\\]</Find>
+        <Replace> [[ranged]]$1 $2 [[magic]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`]) \\[\\[Magic\\]\\](,)? (and|or) \\[\\[Ranged\\]\\]</Find>
+        <Replace> [[magic]]$1 $2 [[ranged]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
       <Replacement>
         <Find>\\{\\{(Disambig)\\}\\}</Find>
         <!-- Fake replacement to make this more obvious. Disambiguation list caps should not be lowered. -->
@@ -171,7 +220,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)('+|\\()?{escaped_1}\\b</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`])( |-)('+|\\()?{escaped_1}\\b</Find>
         <Replace>$1${{2}}{lower_case_1}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -181,7 +230,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)('+|\\()?{escaped_2}\\b</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`])( |-)('+|\\()?{escaped_2}\\b</Find>
         <Replace>$1${{2}}{lower_case_2}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -195,7 +244,7 @@ TEMPLATE_BROAD = """\
 # Plural version of Attack skill is impossible to regex away in nouns list
 ADDITIONAL_BROAD = """\
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)Attacks</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`])( |-)Attacks</Find>
         <Replace>$1attacks</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -205,7 +254,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`])( |-)Attack (it|them|her|him|the|with|from)</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`])( |-)Attack (it|them|her|him|the|with|from|speed)</Find>
         <Replace>$1attack $2</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -215,8 +264,8 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(breath[ -]|an |parrying )Attack\\b</Find>
-        <Replace>$1attack</Replace>
+        <Find>(breath|an|to|parrying|magic) Attack\\b</Find>
+        <Replace>$1 attack</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -225,7 +274,17 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(a) Ranged\\b</Find>
+        <Find>(a|to|for|using) Melee\\b</Find>
+        <Replace>$1 melee</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(a|to|for|using) Ranged\\b</Find>
         <Replace>$1 ranged</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -235,7 +294,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(a) Magic\\b</Find>
+        <Find>(a|to|for|using|air|water|earth|fire) Magic\\b</Find>
         <Replace>$1 magic</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -245,7 +304,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) Ranged(,)? (and|or) Magic</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`]) Ranged(,)? (and|or) Magic</Find>
         <Replace> ranged$1 $2 magic</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -255,7 +314,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) Magic(,)? (and|or) Ranged</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`]) Magic(,)? (and|or) Ranged</Find>
         <Replace> magic$1 $2 ranged</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -275,7 +334,27 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) getting started with</Find>
+        <Find>(by) Cooking</Find>
+        <Replace>$1 cooking</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(by) Farming</Find>
+        <Replace>$1 farming</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`]) getting started with</Find>
         <Replace> getting started with</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -295,7 +374,17 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,)⌋&amp;'"`]) shelter (from)</Find>
+        <Find>(?:(?&lt;!on )(?&lt;!'s ))Death(?! of)</Find>
+        <Replace>Death</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)⌋&amp;'"`]) shelter (from)</Find>
         <Replace> shelter $1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>

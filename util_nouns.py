@@ -29,8 +29,8 @@ PROPER_NOUNS = [
     [r"(?<!special )\bAttack\b", "Attack"],
     [r"\bConstruction\b", "Construction"],
     [r"\bCooking(?! range| pot| potion)\b", "Cooking"],
-    [r"\bFarming(?! plot| tool)\b", "Farming"],
-    [r"\b(?:(?<!net )(?<!rod ))Fishing\b", "Fishing"],
+    [r"(?<!tree )\bFarming(?! plot| tool)\b", "Farming"],
+    [r"(?:(?<!net )(?<!rod ))\bFishing\b(?! rod| net| tool| node| spot| barrel)", "Fishing"],
     [r"\bMagic\b", "Magic"],
     [r"\bMining\b", "Mining"],
     [r"\b(?<!de)Ranged\b", "Ranged"],
@@ -143,7 +143,6 @@ PROPER_NOUNS = [
     "Brynmoor Castle",
     "Menaphos",
     "Temple of", # e.g. Saradomin
-    "Shrine to", # e.g. Saradomin
     "Uzzer",
     "Antumnos",
     "Magrawn",
@@ -195,6 +194,7 @@ PROPER_NOUNS = [
     "Brink of Extinction",
     # More:
     "X Marks the Spot",
+    "Scarecrow Scavenging",
     "The Great Body Robbery",
     "Warding Off Danger",
     "Rogue Trader",
@@ -230,10 +230,12 @@ PROPER_NOUNS = [
     "Day of Purple Feathers",
     "Dragon Rebellion",
     "God War",
+    "Schism",
 
     # Gods
     "Armadyl",
     "Bandos",
+    "Big High War God",
     "Guthix",
     "Saradomin",
     "Zamorak",
@@ -280,6 +282,7 @@ PROPER_NOUNS = [
     "Velgar",
     "General Velgar",
     "Victoria",
+    # "Death",
     "Grim Reaper",
     "Harold Death Esquire",
     "Postie Pete",
@@ -302,6 +305,8 @@ PROPER_NOUNS = [
     "Beartach",
     "Domri - The Merchant",
     "Domri",
+    "Lehran - The Archaeologist",
+    "Lehran",
     "Muncher",
     "Wise Old Man",
     "Archmage Alric",
@@ -328,12 +333,18 @@ PROPER_NOUNS = [
     "Efina - The Lost",
     "Efina",
     "Dearg Due",
-    "Forbidden Scroll",
     "High Queen of the Garou",
+    "High Queen",
     "Queen Kuldra",
     "Dragon Queen",
     "Sun Demon",
     "Elder Kiln",
+    "Duke",
+    "Manafem Elder",
+    "Razlem, the Deranged",
+    "River Goddess",
+    "Goddess of the River",
+    "Soul-Eater",
 
     # List of NPCs: https://dragonwilds.runescape.wiki/w/Non-player_character?action=edit
     "Abraxus",
@@ -585,10 +596,8 @@ PROPER_NOUNS = [
     "Focused Agility II",
     "Lumberjack II",
     "Quarrymaster II",
-    # More uncategorized:
-    "Teamonger",
+    # Construction: TODO
     "Creature Comforts",
-    "Adept Culinaromancer",
     # Agility: https://dragonwilds.runescape.wiki/w/Template:Agility?action=edit
     "Double Jump",
     "Hopper",
@@ -626,19 +635,25 @@ PROPER_NOUNS = [
     "Fire Efficiency",
     "Nature Efficiency",
     "Law Efficiency",
-    # Magic passives: TODO
+    # Magic: TODO
     "Arcane Expertise",
     "Afterimage",
     "Greater Confuse",
+    # Ranged: TODO
+    # "Enchanted Crossbow Bolts",
     # Mining: TODO
     "Ultimate Burst",
     "Ingot Weight Reduction",
     "Gem Prospector",
     "Accelerated Veins",
-    # Fishing: TODO
+    # Fishing: https://dragonwilds.runescape.wiki/w/Template:Fishing?action=edit
     "Troubled Waters",
-    # Farming: TODO
+    "Greater Fishnado",
+    # Farming: https://dragonwilds.runescape.wiki/w/Template:Farming?action=edit
+    "Cleansing Rain",
+    "Harvester",
     "Overgrowth Aura",
+    "Speedy Farmer",
     # Artisan: TODO
     "Bark to Bones",
     "Decorated Adventurer",
@@ -646,9 +661,13 @@ PROPER_NOUNS = [
     "Amateur Culinaromancer",
     "Culinary Confidence",
     # Construction: TODO
+    "Teamonger",
+    "Adept Culinaromancer",
     "Middle Ground",
     "Fine Details",
     "Sacred Geometry",
+    # Other
+    "Burning Endurance",
 
     # Status effects: https://dragonwilds.runescape.wiki/w/Template:Statuses?action=edit
     # Many of these are also used in sentences like "withered" so should not be caps.
@@ -707,6 +726,8 @@ PROPER_NOUNS = [
     "The Wolf and the Goddess",
     "The Tale of the Ghost Wolves",
     "The Gospel of Zamorak",
+    "Forbidden Scroll",
+    "Castle Extra",
 
     # Music tracks: https://dragonwilds.runescape.wiki/w/Category:Music_tracks
     "A Wild World To Tame",
@@ -820,8 +841,10 @@ PROPER_NOUNS = [
     "NPC",
     "PvP",
     "DLC",
-    [r"\bUI\b", "UI"], # Careful, it's short
-    [r"\bXP\b", "XP"], # Careful, it's short
+    [r"\bN/A\b", "N/A"],
+    [r"\bHP\b", "HP"],
+    [r"\bUI\b", "UI"],
+    [r"\bXP\b", "XP"],
 
     # Other
     "Soulscourge",

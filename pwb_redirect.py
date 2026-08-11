@@ -27,7 +27,7 @@ LIMIT = 0 # If greater than 0: save only N changes then exit.
 CATEGORY = False # String to filter, or False to use recent/allpages.
 RECENT = False # True to start from recently created, or False to start alphabetically.
 RECENT_SIZE = 500 # This many pages will be pre-loaded before beginning.
-START = "Ca" # Alphabetical location to resume from, or leave blank for all.
+START = "" # Alphabetical location to resume from, or leave blank for all.
 
 HALT_PAGE = pywikibot.Page(site, "User talk:ChxPotatoCurry-Bot")
 HALT_STRING = "AWB shutdown" # If this text is seen on HALT_PAGE, bot will halt.

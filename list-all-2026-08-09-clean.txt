@@ -298,6 +298,7 @@ druid
 dummy
 dwarf
 dwell
+earth
 emote
 etain
 fangs
@@ -1468,6 +1469,7 @@ gypsum wax
 haralander
 harrlander
 havenhythe
+high queen
 hollowbark
 holy water
 honed edge
@@ -2019,6 +2021,7 @@ cactus fibre
 cactus steak
 cactus water
 carry weight
+castle extra
 cathans note
 chaktan kara
 cheeky fryup
@@ -2066,6 +2069,7 @@ fire spinner
 fire starter
 fishing bait
 fishing cape
+fishing node
 fishing rods
 fishing spot
 flax (plant)
@@ -2494,6 +2498,7 @@ redberry bush
 resource node
 respawn point
 retless ghost
+river goddess
 roast pumpkin
 rotridden cow
 rotridden rat
@@ -3956,6 +3961,7 @@ food & drink salvage
 fortifying crunchies
 garou camp (explore)
 goblin camp (combat)
+goddess of the river
 green standing torch
 horizontal thin beam
 imbued granite block
