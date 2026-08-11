@@ -1,7 +1,3 @@
-north
-south
-east
-west
 Critical Swing
 Critical Chance
 Critical Hit
@@ -16,7 +12,21 @@ Two-Handed
 Crystal Helix
 Crystal Helix Remains
 Ingredients
+Elder Kiln
+Kuldra's Saga
+Alpha Test
+Alpha Challenge Cape DLC
+
 God Wars
+Stone of Jas
+Big High War God
+Forbidden Scroll
+High Queen of the Garou
+
+north
+south
+east
+west
 
 1.0
 1st age

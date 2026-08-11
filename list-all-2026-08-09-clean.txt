@@ -1352,6 +1352,7 @@ abby demon
 activities
 afterimage
 alpha cape
+alpha test
 anima bark
 anima tree
 anima vent
@@ -1424,6 +1425,7 @@ dwellberry
 earth rune
 ectoplasma
 elder gods
+elder kiln
 encumbered
 experience
 fang arrow
@@ -2226,6 +2228,7 @@ steel shield
 stone blocks
 stone cutter
 stone dagger
+stone of jas
 stormtouched
 supercompost
 swamp thread
@@ -2415,6 +2418,7 @@ kalistrakthen
 kalphite bait
 kalphite wing
 kebbit burrow
+kuldra's saga
 law rune vent
 leather chaps
 lesser attack
@@ -3134,6 +3138,7 @@ bandosian amulet
 barbed appendage
 bark at the moon
 beyond nightfall
+big high war god
 blacksmith bench
 blightwood staff
 blightwood swamp
@@ -3193,6 +3198,7 @@ fallen hoplite's
 farming training
 fellhollow vault
 fishing training
+forbidden scroll
 forgotten temple
 fractured plains
 frosted flavours
@@ -4360,6 +4366,7 @@ green adventurer's cape
 green dragonhide armour
 gypsum (disambiguation)
 helping around the farm
+high queen of the garou
 iasadair - the merchant
 inner corner 45° stairs
 kalphite carapace chest
@@ -4430,6 +4437,7 @@ winston henning's diary
 wooden barrel (storage)
 zamorakian pledgesaddle
 zamorakian warrior pack
+alpha challenge cape dlc
 astral rune (decoration)
 berry drizzle pan-seared
 better infusion duration

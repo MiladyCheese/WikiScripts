@@ -198,7 +198,10 @@ PROPER_NOUNS = [
     "The Great Body Robbery",
     "Warding Off Danger",
     "Rogue Trader",
+    "Rag and Bone Garou",
+    "The Mirror Cracked",
     "Kuldra's Saga",
+    "The Collector Calling",
 
     # Dates
     "First Age",
@@ -222,8 +225,11 @@ PROPER_NOUNS = [
 
     # Events
     "Anima Twist",
+    "Withering",
     "Human-Garou War",
     "Day of Purple Feathers",
+    "Dragon Rebellion",
+    "God War",
 
     # Gods
     "Armadyl",
@@ -234,7 +240,7 @@ PROPER_NOUNS = [
     "Icthlarin",
     "Icthlarian",
 
-    # Group/tribe names
+    # Group/tribe/order names
     # (not races: dragonkin, garou, goblin, kalphite all lowercase)
     "Amalgamated",
     "Dorgeshuun",
@@ -248,6 +254,8 @@ PROPER_NOUNS = [
     "Bronze Advisors",
     "Glass Knives",
     "Rasmodels",
+    "Demon's Share",
+    "Dragon Riders",
 
     # TzHaar creatures, for some reason: https://dragonwilds.runescape.wiki/w/KotHaar
     "TzHaar",
@@ -320,6 +328,12 @@ PROPER_NOUNS = [
     "Efina - The Lost",
     "Efina",
     "Dearg Due",
+    "Forbidden Scroll",
+    "High Queen of the Garou",
+    "Queen Kuldra",
+    "Dragon Queen",
+    "Sun Demon",
+    "Elder Kiln",
 
     # List of NPCs: https://dragonwilds.runescape.wiki/w/Non-player_character?action=edit
     "Abraxus",
@@ -473,6 +487,7 @@ PROPER_NOUNS = [
     "Andrew Dodds",
     "RuneFest",
     "Alpha Test",
+    "Alpha Challenge Cape DLC",
 
     # Special attacks: TODO
     "Abyssal Snare",
@@ -638,7 +653,7 @@ PROPER_NOUNS = [
     # Status effects: https://dragonwilds.runescape.wiki/w/Template:Statuses?action=edit
     # Many of these are also used in sentences like "withered" so should not be caps.
     [r"\bFresh Start\b", "Fresh Start"],
-    [r"(?<!a )\bShelter\b", "Shelter"], # This may be too broad, "the Shelter perk" vs "the shelter will"
+    [r"\bShelter\b", "Shelter"],
     [r"\bCosiness\b", "Cosiness"],
     [r"\bBleed\b", "Bleed"],
     [r"\bBurning\b", "Burning"],
@@ -799,18 +814,17 @@ PROPER_NOUNS = [
     [r"\bMac\b", "Mac"],
     "Macintosh",
     "Linux",
+    "Creative Mode",
 
     # Acronyms
     "NPC",
     "PvP",
+    "DLC",
     [r"\bUI\b", "UI"], # Careful, it's short
     [r"\bXP\b", "XP"], # Careful, it's short
 
     # Other
-    "Dragon Rebellion",
-    "God War",
     "Soulscourge",
-    "Creative Mode",
     [r"(\w)/Level up table", "\\1/Level up table"],
     "MOUNT:",
     "PATTERN:",
@@ -842,7 +856,8 @@ def restore_proper_nouns(text):
 #    >>> p.singular_noun("cow")
 #    False # wrong
 def _singular(word):
-    return p.singular_noun(word) or word
+    word = p.singular_noun(word) or word
+    return word
 
 def singular(text):
     tokens = text.split()
@@ -858,10 +873,19 @@ def singular(text):
 def _plural(word):
     if p.singular_noun(word): # returns False if already singular
         return word # already plural
-    return p.plural_noun(word)
+
+    word = p.plural_noun(word)
+    return word
 
 def plural(text):
+    # e.g. "body => bodies" but "Body => Bodys"
+    if has_caps(text):
+        print("WARN: text must be lowercase to pluralize properly: " + text)
+
     tokens = text.split()
     last_word = tokens.pop()
     tokens.append(_plural(last_word))
     return " ".join(tokens)
+
+def has_caps(text):
+    return any(c.isupper() for c in text)
