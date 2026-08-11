@@ -336,8 +336,12 @@ PROPER_NOUNS = [
     "High Queen of the Garou",
     "High Queen",
     "Queen Kuldra",
+    "God Eater",
     "Dragon Queen",
+    "Queen of Ashes",
     "Sun Demon",
+    "Demon of Embers",
+    "Demon of the Suns",
     "Elder Kiln",
     "Duke",
     "Manafem Elder",
@@ -345,6 +349,14 @@ PROPER_NOUNS = [
     "River Goddess",
     "Goddess of the River",
     "Soul-Eater",
+    "Meya",
+    "Samuel Malcifer",
+    "Fido",
+    # "Lurch",
+    "Gnasher",
+    # "Tiny",
+    "Rufus",
+    "World Guardian",
 
     # List of NPCs: https://dragonwilds.runescape.wiki/w/Non-player_character?action=edit
     "Abraxus",
@@ -447,6 +459,9 @@ PROPER_NOUNS = [
     "Vesk",
     "Victoria Thistlethwaite",
     "Viika",
+
+    # Emotes
+    "Grab Attention",
 
     # Jagex: https://dragonwilds.runescape.wiki/w/Category:Jagex
     "Ally Banayoti",
@@ -596,8 +611,11 @@ PROPER_NOUNS = [
     "Focused Agility II",
     "Lumberjack II",
     "Quarrymaster II",
-    # Construction: TODO
+    # Construction: https://dragonwilds.runescape.wiki/w/Template:Construction?action=edit
     "Creature Comforts",
+    "Middle Ground",
+    "Fine Details",
+    "Sacred Geometry",
     # Agility: https://dragonwilds.runescape.wiki/w/Template:Agility?action=edit
     "Double Jump",
     "Hopper",
@@ -614,7 +632,7 @@ PROPER_NOUNS = [
     # "Explorer",
     "Razor-backed Burrower",
     "Trailblazer",
-    # RC: https://dragonwilds.runescape.wiki/w/Template:Runecrafting?action=edit
+    # Runecrafting: https://dragonwilds.runescape.wiki/w/Template:Runecrafting?action=edit
     "Summon Elemental Spirits",
     "Runes to Rune Essence",
     "Fire Spirit",
@@ -635,17 +653,42 @@ PROPER_NOUNS = [
     "Fire Efficiency",
     "Nature Efficiency",
     "Law Efficiency",
-    # Magic: TODO
+    # Attack: https://dragonwilds.runescape.wiki/w/Template:Attack?action=edit
+    # "Parry",
+    "Melee Weapon Special Actions",
+    "Weapon Expertise",
+    "Adaptability",
+    # Magic: https://dragonwilds.runescape.wiki/w/Template:Magic?action=edit
+    "Secondary Attacks",
+    # "Water Magic",
+    # "Fire Magic",
     "Arcane Expertise",
+    "Runic Refund",
     "Afterimage",
+    "Lesser Magic Potion",
+    "Magical Focus",
     "Greater Confuse",
-    # Ranged: TODO
-    # "Enchanted Crossbow Bolts",
-    # Mining: TODO
+    # Ranged: https://dragonwilds.runescape.wiki/w/Template:Ranged?action=edit
+    "Quick Action",
+    "Trick Shot",
+    "Toxic Behaviour",
+    "Hunter's Sense",
+    "Make 'Em Bleed",
+    "Spectral Arrows",
+    "Crossbow Trick Shot",
+    "Enchanted Crossbow Bolts",
+    "Venomous Trapper",
+    "Fire Starter",
+    # Mining: https://dragonwilds.runescape.wiki/w/Template:Mining?action=edit
+    "Lift With Your Hips",
     "Ultimate Burst",
-    "Ingot Weight Reduction",
     "Gem Prospector",
+    "Mine Crumbled Walls",
+    "Detect Ore + Clay",
+    "Not-So-Heavy Metal",
+    # "Divine Rock",
     "Accelerated Veins",
+    "Ingot Weight Reduction",
     # Fishing: https://dragonwilds.runescape.wiki/w/Template:Fishing?action=edit
     "Troubled Waters",
     "Greater Fishnado",
@@ -654,18 +697,18 @@ PROPER_NOUNS = [
     "Harvester",
     "Overgrowth Aura",
     "Speedy Farmer",
-    # Artisan: TODO
-    "Bark to Bones",
+    # Artisan: https://dragonwilds.runescape.wiki/w/Template:Artisan?action=edit
     "Decorated Adventurer",
-    # Cooking: TODO
+    # Cooking: https://dragonwilds.runescape.wiki/w/Template:Cooking?action=edit
     "Amateur Culinaromancer",
-    "Culinary Confidence",
-    # Construction: TODO
-    "Teamonger",
     "Adept Culinaromancer",
-    "Middle Ground",
-    "Fine Details",
-    "Sacred Geometry",
+    "Culinary Confidence",
+    "Grill Master",
+    "Fancy Cookware",
+    "Yes, chef!",
+    "Teamonger",
+    # Woodcutting: https://dragonwilds.runescape.wiki/w/Template:Woodcutting?action=edit
+    "Chop Thorny Vines",
     # Other
     "Burning Endurance",
 
