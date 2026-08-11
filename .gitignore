@@ -15,9 +15,15 @@ throttle.ctrl
 
 # User junk
 archive/
-wip */
+*/archive/
 *.log
+*/wip*/
+*wip.*
+wip*.*
 pwb_fix_doubles_list.txt
+
+# Artifacts
+*-clean.txt
 *-narrow.txt
 *-narrow.xml
 *-broad.txt
