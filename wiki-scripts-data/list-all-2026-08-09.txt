@@ -24,6 +24,13 @@ air
 water
 earth
 fire
+god-eater
+soul eater
+soul-eater
+world guardian
+guardians of guthix
+rasmodel
+death's temple
 
 God Wars
 Stone of Jas

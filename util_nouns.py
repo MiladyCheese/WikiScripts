@@ -113,6 +113,7 @@ PROPER_NOUNS = [
     "Coalridge Pass",
     "Dragon's Run",
     "Emberwood",
+    "Emberwood Village",
     "Forgotten Temple",
     "Hope's Fall",
     "Lake of Lost Souls",
@@ -151,6 +152,8 @@ PROPER_NOUNS = [
     "Kharid", # ...ian
     "Wizard's Guild",
     "Wizard's Tower",
+    "King's Pass",
+    "Death's Temple",
 
     # Shops
     "Death's Exchange",
@@ -192,9 +195,10 @@ PROPER_NOUNS = [
     "Mapping The Sands I",
     "Mapping The Sands II",
     "Brink of Extinction",
-    # More:
+    # Activities: https://dragonwilds.runescape.wiki/w/Template:Activities?action=edit
+    "Statues of Saradomin",
     "X Marks the Spot",
-    "Scarecrow Scavenging",
+    # More:
     "The Great Body Robbery",
     "Warding Off Danger",
     "Rogue Trader",
@@ -231,6 +235,7 @@ PROPER_NOUNS = [
     "Dragon Rebellion",
     "God War",
     "Schism",
+    "Mark Day",
 
     # Gods
     "Armadyl",
@@ -248,6 +253,7 @@ PROPER_NOUNS = [
     "Dorgeshuun",
     "Black Knight",
     "White Knight",
+    "Temple Knight",
     "Lunar Garou",
     "Moon Garou",
     "Elder God",
@@ -272,6 +278,7 @@ PROPER_NOUNS = [
     "Swingslash",
     "Skullsplitter",
     "Titan's Wrath",
+    [r"(?!mirror )\bLens\b", "Lens"], # A specific Elder artifact
 
     # Other names (often first names from below)
     "Elidinis",
@@ -286,6 +293,7 @@ PROPER_NOUNS = [
     "Grim Reaper",
     "Harold Death Esquire",
     "Postie Pete",
+    "Parcel Pete",
     [r"\bPete\b", "Pete"],
     "Caratacus",
     "Caratacus the Elder",
@@ -307,6 +315,12 @@ PROPER_NOUNS = [
     "Domri",
     "Lehran - The Archaeologist",
     "Lehran",
+    "Hedric - The Hunter",
+    "Hedric",
+    "Lagra - The Butcher",
+    "Lagra",
+    "Laguna - The Bard",
+    "Laguna",
     "Muncher",
     "Wise Old Man",
     "Archmage Alric",
@@ -317,6 +331,8 @@ PROPER_NOUNS = [
     "Titan", # of Black Knight Titan
     "Garou King",
     "Kalphite Queen",
+    "King Black Dragon",
+    "Queen Black Dragon",
     "Rat Master Skrexis",
     "Edna",
     "KotHaar-Hok-Zi",
@@ -337,6 +353,7 @@ PROPER_NOUNS = [
     "High Queen",
     "Queen Kuldra",
     "God Eater",
+    "God-Eater",
     "Dragon Queen",
     "Queen of Ashes",
     "Sun Demon",
@@ -348,6 +365,7 @@ PROPER_NOUNS = [
     "Razlem, the Deranged",
     "River Goddess",
     "Goddess of the River",
+    "Soul Eater",
     "Soul-Eater",
     "Meya",
     "Samuel Malcifer",
@@ -357,8 +375,14 @@ PROPER_NOUNS = [
     # "Tiny",
     "Rufus",
     "World Guardian",
+    "Guardians of Guthix",
+    "Lagra",
+    "Blood Witch",
+    "Magpie King",
+    "Shaun",
 
     # List of NPCs: https://dragonwilds.runescape.wiki/w/Non-player_character?action=edit
+    "Atilius Rasmodel",
     "Abraxus",
     "Abraxus The Eternal",
     "Avisk",
@@ -674,7 +698,6 @@ PROPER_NOUNS = [
     "Toxic Behaviour",
     "Hunter's Sense",
     "Make 'Em Bleed",
-    "Spectral Arrows",
     "Crossbow Trick Shot",
     "Enchanted Crossbow Bolts",
     "Venomous Trapper",
@@ -711,6 +734,7 @@ PROPER_NOUNS = [
     "Chop Thorny Vines",
     # Other
     "Burning Endurance",
+    "Ferocious Furnace",
 
     # Status effects: https://dragonwilds.runescape.wiki/w/Template:Statuses?action=edit
     # Many of these are also used in sentences like "withered" so should not be caps.
@@ -721,14 +745,14 @@ PROPER_NOUNS = [
     [r"\bBurning\b", "Burning"],
     [r"\bEncumbered\b", "Encumbered"],
     [r"\bFatigue\b", "Fatigue"],
-    [r"\bPoison\b(?! ichor| rock)", "Poison"],
+    [r"(?<!weapon )\bPoison\b(?! ichor| rock)", "Poison"],
     [r"\bShocked\b", "Shocked"],
     [r"\bSoulscourge\b", "Soulscourge"],
     [r"\bWater Wading\b", "Water Wading"],
     [r"\bWither\b", "Wither"],
-    [r"\bScorch\b", "Scorch"],
+    [r"\bScorch\b(?! leather)", "Scorch"],
     [r"\bOver Eating\b", "Over Eating"],
-    [r"\bLifeward\b", "Lifeward"],
+    # [r"\bLifeward\b", "Lifeward"], # No, this is like "health"
 
     # Book titles: https://dragonwilds.runescape.wiki/w/Template:Tomes and https://dragonwilds.runescape.wiki/w/Category:Quest_Items
     "The Pride of the Avernic",
@@ -771,6 +795,7 @@ PROPER_NOUNS = [
     "The Gospel of Zamorak",
     "Forbidden Scroll",
     "Castle Extra",
+    "Hall of Heroes",
 
     # Music tracks: https://dragonwilds.runescape.wiki/w/Category:Music_tracks
     "A Wild World To Tame",
@@ -796,6 +821,7 @@ PROPER_NOUNS = [
     # Not "Harmony", too generic
     "Heroic Anticipation",
     "Into The Wilds (Main Theme)",
+    "Into The Wilds",
     "Magical Busy",
     # Not "Medieval", too generic
     "Melodi Fresci",
@@ -805,7 +831,7 @@ PROPER_NOUNS = [
     "Mystery Magic",
     "Primitive Martial",
     "Primitive Ritual",
-    "Restless Ghosts (music track)",
+    "Restless Ghosts",
     # Not "Sacred", too generic
     "Sea Shanty ii",
     "Starlit Voyage",
@@ -892,6 +918,7 @@ PROPER_NOUNS = [
     # Other
     "Soulscourge",
     [r"(\w)/Level up table", "\\1/Level up table"],
+    [r"(\w)/Strategies", "\\1/Strategies"],
     "MOUNT:",
     "PATTERN:",
     "PLAN:",
