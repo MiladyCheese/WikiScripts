@@ -2,11 +2,13 @@
 
 A set of python scripts to automate RS wiki editing using Pywikibot (PWB) and AutoWikiBrowser (AWB). Currently built around [Dragonwilds](https://dragonwilds.runescape.wiki).
 
+Featuring **proper noun awareness** to preserve & fix cases (like "Umbral Sands" vs "sand") -- see [util_nouns.py](util_nouns.py) for 900+ known proper nouns in the game.
+
 Tools include:
 - `pwb_redirect`: Automatically create redirects to all case variations, such as "ash logs" -> "Ash Logs".
 - `py_articles_to_xml`: Export 500,000 lines of regex settings to load into AWB for find/replacing cases in prose.
 
-All scripts have **proper noun awareness** to keep cases (like "Umbral Sands" vs "sand") -- see [util_nouns.py](util_nouns.py) for ~800 known proper nouns in the game.
+<img width="2048" height="1382" alt="Screenshot 2026-08-11 221913" src="https://github.com/user-attachments/assets/34a0e137-a67b-4705-aa8b-635b5972f37f" />
 
 ## Usage
 
