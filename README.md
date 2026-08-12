@@ -8,7 +8,7 @@ Tools include:
 - `pwb_redirect`: Automatically create redirects to all case variations, such as "ash logs" -> "Ash Logs".
 - `py_articles_to_xml`: Export 500,000 lines of regex settings to load into AWB for find/replacing cases in prose.
 
-<img width="2048" height="1382" alt="Screenshot 2026-08-11 221913" src="https://github.com/user-attachments/assets/34a0e137-a67b-4705-aa8b-635b5972f37f" />
+<img width="1024" height="691" alt="Screenshot of AWB" src="https://github.com/user-attachments/assets/34a0e137-a67b-4705-aa8b-635b5972f37f" />
 
 ## Usage
 
