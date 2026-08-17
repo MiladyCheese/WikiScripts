@@ -124,6 +124,16 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`])( |-)\\[\\[Power Level\\|Tier( \\d)?\\]\\]</Find>
+        <Replace>$1[[power level]]$2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
         <Find>\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
         <Replace>[[Power level]]$1</Replace>
         <Comment />
@@ -184,8 +194,28 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>the \\[\\[Player Character\\|Player\\]\\]</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Dragonkin Vault\\|Vault\\]\\]</Find>
+        <Replace> [[dragonkin vault|vault]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the \\[\\[Player Character(\\|Player)?\\]\\]</Find>
         <Replace>the [[player]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Wither\\]\\](ed|ing)</Find>
+        <Replace> [[wither]]$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -214,8 +244,8 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Melee\\]\\] ((\\[\\[)?(armour|attack))</Find>
-        <Replace> [[melee]] $1</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Melee((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Replace> [[melee$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -224,8 +254,8 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Ranged\\]\\] ((\\[\\[)?(armour|attack))</Find>
-        <Replace> [[ranged]] $1</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Ranged((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Replace> [[ranged$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -234,8 +264,8 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Magic\\]\\](al)? ((\\[\\[)?(armour|attack))</Find>
-        <Replace> [[magic]]$1 $2</Replace>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Magic(al)?((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Replace> [[magic$1$2</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -424,6 +454,16 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Mining (node)</Find>
+        <Replace> mining $1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
         <Find>(for|in) Construction</Find>
         <Replace>$1 construction</Replace>
         <Comment />
@@ -466,6 +506,36 @@ ADDITIONAL_BROAD = """\
       <Replacement>
         <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) getting started with</Find>
         <Replace> getting started with</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the goblin series</Find>
+        <Replace>the Goblin series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the garou series</Find>
+        <Replace>the Garou series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the dragon attack series</Find>
+        <Replace>the Dragon Attack series</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>

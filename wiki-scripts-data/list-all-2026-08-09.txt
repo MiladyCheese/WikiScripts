@@ -33,6 +33,7 @@ guardians of guthix
 rasmodel
 death's temple
 Moon Sprite Shaman - Anamcara
+Prayer points
 
 ---done---
 God Wars
