@@ -205,7 +205,13 @@ def main():
     for original_page in articles:
         original_title = original_page.title()
 
-        lower_title = restore_proper_nouns(original_title.capitalize()) # Sentence case + proper nouns
+        lower_title = original_title.capitalize() # Pure sentence case, no proper nouns yet
+        new_c, new_s, new_e = try_to_redirect(original_page, original_title, lower_title)
+        created += new_c
+        skipped += new_s
+        errors += new_e
+
+        lower_title = restore_proper_nouns(lower_title) # Sentence case + proper nouns
         new_c, new_s, new_e = try_to_redirect(original_page, original_title, lower_title)
         created += new_c
         skipped += new_s
