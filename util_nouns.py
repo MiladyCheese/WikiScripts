@@ -31,7 +31,7 @@ PROPER_NOUNS = [
     [r"\bCooking(?! range| pot| potion)\b", "Cooking"],
     [r"(?<!tree )\bFarming(?! plot| tool)\b", "Farming"],
     [r"(?:(?<!net )(?<!rod ))\bFishing\b(?! rod| net| tool| node| spot| barrel)", "Fishing"],
-    [r"\bMagic\b", "Magic"],
+    [r"\bMagic\b(?! carpet)", "Magic"],
     [r"\bMining\b", "Mining"],
     [r"\b(?<!de)Ranged\b", "Ranged"],
     [r"\bRunecrafting\b", "Runecrafting"],
@@ -253,15 +253,17 @@ PROPER_NOUNS = [
     "Dorgeshuun",
     "Black Knight",
     "White Knight",
+    "Knights of Saradomin",
     "Temple Knight",
     "Lunar Garou",
     "Moon Garou",
+    "Dactyl",
     "Elder God",
     "Cabal",
     "Children of Shadows",
     "Bronze Advisors",
     "Glass Knives",
-    "Rasmodels",
+    "Rasmodel", # sometimes plural (Rasmodel family / Rasmodels)
     "Demon's Share",
     "Dragon Riders",
 
@@ -278,7 +280,7 @@ PROPER_NOUNS = [
     "Swingslash",
     "Skullsplitter",
     "Titan's Wrath",
-    [r"(?!mirror )\bLens\b", "Lens"], # A specific Elder artifact
+    [r"(?<!mirror )\bLens\b", "Lens"], # A specific Elder artifact
 
     # Other names (often first names from below)
     "Elidinis",
@@ -321,6 +323,10 @@ PROPER_NOUNS = [
     "Lagra",
     "Laguna - The Bard",
     "Laguna",
+    "Manathep - The Bereaved",
+    "Manathep",
+    "Moon Sprite Shaman - Anamcara",
+    "Anamcara",
     "Muncher",
     "Wise Old Man",
     "Archmage Alric",
@@ -535,6 +541,7 @@ PROPER_NOUNS = [
     "Dragonwilds",
     "Ashton Mills",
     "Andrew Dodds",
+    "Mod Gifted",
     "RuneFest",
     "Alpha Test",
     "Alpha Challenge Cape DLC",
@@ -640,6 +647,7 @@ PROPER_NOUNS = [
     "Middle Ground",
     "Fine Details",
     "Sacred Geometry",
+    "Mighty Oak",
     # Agility: https://dragonwilds.runescape.wiki/w/Template:Agility?action=edit
     "Double Jump",
     "Hopper",
@@ -689,7 +697,6 @@ PROPER_NOUNS = [
     "Arcane Expertise",
     "Runic Refund",
     "Afterimage",
-    "Lesser Magic Potion",
     "Magical Focus",
     "Greater Confuse",
     # Ranged: https://dragonwilds.runescape.wiki/w/Template:Ranged?action=edit

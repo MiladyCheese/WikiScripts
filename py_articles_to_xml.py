@@ -24,6 +24,16 @@ def escape_xml(text):
 def escape_regex(text):
     return re.escape(text)
 
+# Add \b to the back only if appropriate ("Wanted!" is an example of a tricky word)
+def escape_regex_boundBack(text):
+    needs_back = re.search(r"\W$", text) is None
+    return f"{escape_regex(text)}{"\\b" if needs_back else ""}"
+
+# Add \b to the front + back only if appropriate ("Wanted!" is an example of a tricky word)
+def escape_regex_boundBoth(text):
+    needs_front = re.search(r"^\W", text) is None
+    return f"{"\\b" if needs_front else ""}{escape_regex_boundBack(text)}"
+
 # Unused except when undoing things like disambiguation pages
 def title_case(text):
     text = restore_proper_nouns(text.title())
@@ -244,6 +254,16 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
+        <Find>(after) \\[\\[Mining\\]\\]</Find>
+        <Replace>$1 [[mining]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
         <Find>\\{\\{(Disambig(uation)?)\\}\\}</Find>
         <!-- Fake replacement to make this more obvious. Disambiguation list caps should not be lowered. -->
         <Replace>{{$1}} ⚠⚠⚠</Replace>
@@ -260,7 +280,7 @@ ADDITIONAL_NARROW = """\
 # Note that link hiding replaces [[link]] with ⌊⌊⌊⌊link⌋⌋⌋⌋ which is still usable as a negative match.
 TEMPLATE_BROAD = """\
       <Replacement>
-        <Find>\\b{escaped_1}\\b</Find>
+        <Find>{b_escaped_1_b}</Find>
         <Replace>{sentence_case_1}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -270,7 +290,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>\\b{escaped_2}\\b</Find>
+        <Find>{b_escaped_2_b}</Find>
         <Replace>{sentence_case_2}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -280,7 +300,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])([ /-])('+|\\()?{escaped_1}\\b</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])([ /-])('+|\\()?{escaped_1_b}</Find>
         <Replace>$1${{2}}{lower_case_1}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -290,7 +310,7 @@ TEMPLATE_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])([ /-])('+|\\()?{escaped_2}\\b</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])([ /-])('+|\\()?{escaped_2_b}</Find>
         <Replace>$1${{2}}{lower_case_2}</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -424,6 +444,16 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Cooking (a)</Find>
+        <Replace> cooking $1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
         <Find>(by|for) Farming</Find>
         <Replace>$1 farming</Replace>
         <Comment />
@@ -436,6 +466,16 @@ ADDITIONAL_BROAD = """\
       <Replacement>
         <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) getting started with</Find>
         <Replace> getting started with</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>spells tab</Find>
+        <Replace>Spells tab</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
         <Enabled>true</Enabled>
@@ -527,6 +567,15 @@ def main():
             x_lower_1 = escape_regex(lower_1)
             x_lower_2 = escape_regex(lower_2)
 
+            # And include alternatives with punctuation-aware `\b` caps.
+            x_lower_b = escape_regex_boundBack(lower)
+            x_lower_1_b = escape_regex_boundBack(lower_1)
+            x_lower_2_b = escape_regex_boundBack(lower_2)
+
+            b_x_lower_b = escape_regex_boundBoth(lower)
+            b_x_lower_1_b = escape_regex_boundBoth(lower_1)
+            b_x_lower_2_b = escape_regex_boundBoth(lower_2)
+
             # Debug plurality:
             #print(f"{lower} (1 {lower_1}; 2 {lower_2})...")
 
@@ -543,6 +592,14 @@ def main():
                 escaped=x_lower,
                 escaped_1=x_lower_1,
                 escaped_2=x_lower_2,
+
+                escaped_b=x_lower_b,
+                escaped_1_b=x_lower_1_b,
+                escaped_2_b=x_lower_2_b,
+
+                b_escaped_b=b_x_lower_b,
+                b_escaped_1_b=b_x_lower_1_b,
+                b_escaped_2_b=b_x_lower_2_b,
             ))
 
             fout_broad.write(TEMPLATE_BROAD.format(
@@ -558,6 +615,14 @@ def main():
                 escaped=x_lower,
                 escaped_1=x_lower_1,
                 escaped_2=x_lower_2,
+
+                escaped_b=x_lower_b,
+                escaped_1_b=x_lower_1_b,
+                escaped_2_b=x_lower_2_b,
+
+                b_escaped_b=b_x_lower_b,
+                b_escaped_1_b=b_x_lower_1_b,
+                b_escaped_2_b=b_x_lower_2_b,
             ))
 
         fout_narrow.write(ADDITIONAL_NARROW)

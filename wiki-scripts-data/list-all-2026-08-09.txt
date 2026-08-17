@@ -1,3 +1,4 @@
+---tbd---
 Critical Swing
 Critical Chance
 Critical Hit
@@ -31,19 +32,27 @@ world guardian
 guardians of guthix
 rasmodel
 death's temple
+Moon Sprite Shaman - Anamcara
 
+---done---
 God Wars
 Stone of Jas
 Big High War God
 Forbidden Scroll
 High Queen of the Garou
 High Queen
+Kuldra's Saga
+Gold Medal
+Silver Medal
+Bronze Medal
 
+---other---
 north
 south
 east
 west
 
+---original---
 1.0
 1st age
 26° roof
