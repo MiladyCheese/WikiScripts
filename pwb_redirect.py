@@ -166,6 +166,7 @@ def main():
             continue
 
         # Follow redirects so we don't create a double redirect.
+        redirected_from = False
         if original_page.isRedirectPage():
             try:
                 new_title = original_page.getRedirectTarget().title()
@@ -174,6 +175,7 @@ def main():
                 logging.info(f"SKIP resolving redirect to unsupported namespace: {original_page.title()}")
                 continue
             logging.info(f"RESOLVED: redirect {original_title} -> {new_title}")
+            redirected_from = original_title
             original_title = new_title
 
         prefix = "[DRY RUN] " if DRY_RUN else ""
@@ -192,7 +194,7 @@ def main():
 
         try:
             redirect_page.text = f"#REDIRECT [[{original_title}]]"
-            redirect_page.save(f"Redirected page to [[{original_title}]]")
+            redirect_page.save(f"Redirected page to [[{original_title}]]{f" (via [[{redirected_from}]])" if redirected_from else ""}")
             created += 1
         except Exception as e:
             errors += 1
