@@ -125,6 +125,64 @@ def should_skip_noop(original_title, lower_title):
         return True
     return False
 
+# Returns [created_count, skip_count, error_count].
+def try_to_redirect(original_page, original_title, lower_title):
+    # Quick heuristics to skip many pages before we even need to load them.
+    if (
+        should_skip_regex(original_title)
+        or should_skip_subpage(original_title)
+        or should_skip_noop(original_title, lower_title)
+    ):
+        return [0, 1, 0]
+
+    redirect_page = pywikibot.Page(site, lower_title)
+
+    # Slower heuristics.
+    if (
+        should_skip_exists(redirect_page, original_title, lower_title)
+        or should_skip_deleted(original_page)
+        or should_skip_category(original_page)
+    ):
+        return [0, 1, 0]
+
+    # Follow redirects so we don't create a double redirect.
+    redirected_from = False
+    if original_page.isRedirectPage():
+        try:
+            new_title = original_page.getRedirectTarget().title()
+        except pywikibot.exceptions.UnsupportedPageError:
+            # We can't get a Page object to the Special namespace, and that's okay.
+            logging.info(f"SKIP resolving redirect to unsupported namespace: {original_page.title()}")
+            return [0, 1, 0]
+
+        logging.info(f"RESOLVED: redirect {original_title} -> {new_title}")
+        redirected_from = original_title
+        original_title = new_title
+
+    prefix = "[DRY RUN] " if DRY_RUN else ""
+    logging.info(f"{prefix}CREATE: {lower_title} -> {original_title}")
+
+    if DRY_RUN:
+        return [1, 0, 0]
+
+    try:
+        redirect_page.text = f"#REDIRECT [[{original_title}]]"
+        redirect_page.save(f"Redirected page to [[{original_title}]]{f" (via [[{redirected_from}]])" if redirected_from else ""}")
+        return [1, 0, 0]
+    except Exception as e:
+        logging.exception(f"ERROR saving {lower_title} -> {original_title}: {e}")
+        return [0, 0, 1]
+
+# Return True if bot halt detected, otherwise False.
+def should_halt():
+    HALT_PAGE.clear_cache()
+
+    if HALT_STRING.lower() in HALT_PAGE.text.lower():
+        logging.warning("Bot halt detected!")
+        return True
+
+    return False
+
 # Takes about 8 minutes to check 8000 pages when there's nothing to do (July 2026).
 # Otherwise, takes ~1 second per page when creating pages, which would take 2-3 hours max.
 def main():
@@ -141,67 +199,25 @@ def main():
     logging.info(f"\tDry run:\t{DRY_RUN}")
     logging.info(f"\tLimit:\t\t{LIMIT}")
 
+    if should_halt():
+        return
+
     for original_page in articles:
         original_title = original_page.title()
-        lower_title = restore_proper_nouns(original_title.capitalize()) # Sentence case
 
-        # Quick heuristics to skip many pages before we even need to load them.
-        if (
-            should_skip_regex(original_title)
-            or should_skip_subpage(original_title)
-            or should_skip_noop(original_title, lower_title)
-        ):
-            skipped +=1
-            continue
-
-        redirect_page = pywikibot.Page(site, lower_title)
-
-        # Slower heuristics.
-        if (
-            should_skip_exists(redirect_page, original_title, lower_title)
-            or should_skip_deleted(original_page)
-            or should_skip_category(original_page)
-        ):
-            skipped += 1
-            continue
-
-        # Follow redirects so we don't create a double redirect.
-        redirected_from = False
-        if original_page.isRedirectPage():
-            try:
-                new_title = original_page.getRedirectTarget().title()
-            except pywikibot.exceptions.UnsupportedPageError:
-                # We can't get a Page object to the Special namespace, and that's okay.
-                logging.info(f"SKIP resolving redirect to unsupported namespace: {original_page.title()}")
-                continue
-            logging.info(f"RESOLVED: redirect {original_title} -> {new_title}")
-            redirected_from = original_title
-            original_title = new_title
-
-        prefix = "[DRY RUN] " if DRY_RUN else ""
-        logging.info(f"{prefix}CREATE: {lower_title} -> {original_title}")
-
-        if DRY_RUN:
-            continue
-
-        # Occasionally check for manual override
-        if created % HALT_FREQUENCY == 0:
-            HALT_PAGE.clear_cache()
-
-            if HALT_STRING.lower() in HALT_PAGE.text.lower():
-                logging.warning("Bot halt detected!")
-                break
-
-        try:
-            redirect_page.text = f"#REDIRECT [[{original_title}]]"
-            redirect_page.save(f"Redirected page to [[{original_title}]]{f" (via [[{redirected_from}]])" if redirected_from else ""}")
-            created += 1
-        except Exception as e:
-            errors += 1
-            logging.exception(f"ERROR saving {lower_title} -> {original_title}: {e}")
+        lower_title = restore_proper_nouns(original_title.capitalize()) # Sentence case + proper nouns
+        new_c, new_s, new_e = try_to_redirect(original_page, original_title, lower_title)
+        created += new_c
+        skipped += new_s
+        errors += new_e
 
         if LIMIT > 0 and created >= LIMIT:
             logging.info("LIMIT enabled; stopping here")
+            break
+
+        # Occasionally check for manual override,
+        # but only if we recently did anything (this is a slow check).
+        if new_c > 0 and created % HALT_FREQUENCY == 0 and should_halt():
             break
 
     logging.info("Done.")
