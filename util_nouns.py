@@ -30,7 +30,7 @@ PROPER_NOUNS = [
     [r"\bConstruction\b", "Construction"],
     [r"\bCooking(?! range| pot| potion)\b", "Cooking"],
     [r"(?<!tree )\bFarming(?! plot| tool)\b", "Farming"],
-    [r"(?:(?<!net )(?<!rod ))\bFishing\b(?! rod| net| tool| node| spot| barrel)", "Fishing"],
+    [r"(?:(?<!net )(?<!rod ))\bFishing\b(?! rod| net| tool| bait| node| spot| barrel)", "Fishing"],
     [r"\bMagic\b(?! carpet| weapon)", "Magic"],
     [r"\bMining\b", "Mining"],
     [r"\b(?<!de)Ranged\b(?! weapon)", "Ranged"],
@@ -140,11 +140,14 @@ PROPER_NOUNS = [
 
     # Other places
     "Gielinor",
+    [r"\bAbyss\b", "Abyss"], # not abyssal for some reason
+    "Abyssal Space",
     "Blue Flame Keep",
     "Blueflame Keep",
     "Brynmoor Castle",
     "Menaphos",
     "Temple of", # e.g. Saradomin
+    "Rememberance Shrine",
     "Uzzer",
     "Antumnos",
     "Magrawn",
@@ -152,6 +155,7 @@ PROPER_NOUNS = [
     "Grand Hall",
     "Kharid", # ...ian
     "Wizard's Guild",
+    "Magic Institute",
     "Wizard's Tower",
     "King's Pass",
     "Death's Temple",
@@ -686,7 +690,7 @@ PROPER_NOUNS = [
     "Lesser Anima Siphoning",
     "Essential Strength",
     "Greater Anima Siphoning",
-    "Attunement Phase Duration",
+    # "Attunement Phase Duration", # listed repeatedly as a duration rather than the perk
     "Lesser Infusion Duration",
     "Better Infusion Duration",
     "Greater Infusion Duration",
@@ -758,7 +762,7 @@ PROPER_NOUNS = [
     # Status effects: https://dragonwilds.runescape.wiki/w/Template:Statuses?action=edit
     # Many of these are also used in sentences like "withered" so should not be caps.
     [r"\bFresh Start\b", "Fresh Start"],
-    [r"\bShelter\b", "Shelter"],
+    [r"(?<!summoned )\bShelter\b", "Shelter"],
     [r"\bCosiness\b", "Cosiness"],
     [r"\bBleed\b", "Bleed"],
     [r"\bBurning\b", "Burning"],
@@ -784,6 +788,8 @@ PROPER_NOUNS = [
     "The Binding of Ib",
     "Tome of Attack - Vol 1",
     "Tome of Attack - Vol 2",
+    "Tome of Agility - Vol 1",
+    "Tome of Agility - Vol 2",
     "Tome of Construction - Vol 1",
     "Tome of Construction - Vol 2",
     "Tome of Cooking - Vol 1",
@@ -927,6 +933,7 @@ PROPER_NOUNS = [
 
     # Acronyms
     [r"\bNPC\b", "NPC"],
+    [r"\bNPCs\b", "NPCs"],
     [r"\bPvP\b", "PvP"],
     [r"\bDLC\b", "DLC"],
     [r"\bN/A\b", "N/A"],

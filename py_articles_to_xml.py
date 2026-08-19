@@ -364,7 +364,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])( |-)Attack (it|them|her|him|the|with|from|where|speed)</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])( |-)Attack (is|it|them|her|him|the|with|from|where|speed)</Find>
         <Replace>$1attack $2</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -374,7 +374,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(breath|an|to|will|parrying|magic|'s) Attack\\b</Find>
+        <Find>(breath|based|an|to|will|parrying|magic|'s) Attack\\b</Find>
         <Replace>$1 attack</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
