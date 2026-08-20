@@ -20,7 +20,8 @@ If you don't have PWB installed yet (see also [official docs](https://www.mediaw
 
 1. Clone this repo wherever you want, then navigate into it
 1. `pip install pywikibot`
-1. `pwb generate_user_files` # Accept and ignore defaults
+1. Change the username in `user-config.py`
+1. Change the password in `user-password.cfg`
 1. `pwb login` # This will use the `rsdw` family which is already committed to the repo
 
 ## Usage
