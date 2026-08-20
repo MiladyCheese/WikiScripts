@@ -4,7 +4,6 @@ user-password.cfg
 
 # PWB junk
 logs/
-families/
 apicache/
 __pycache__/
 throttle.ctrl
