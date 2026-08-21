@@ -12,17 +12,19 @@ Tools include:
 
 ## Setup
 
-If you have PWB installed already:
-
-1. Clone this repo into the same folder as your PWB installation
-
-If you don't have PWB installed yet (see also [official docs](https://www.mediawiki.org/wiki/Manual:Pywikibot/Installation)):
-
+Install [PWB](https://www.mediawiki.org/wiki/Manual:Pywikibot/Installation):
 1. Clone this repo wherever you want, then navigate into it
-1. `pip install pywikibot`
+1. `pip install pywikibot inflect`
 1. Change the username in `user-config.py`
 1. Change the password in `user-password.cfg`
 1. `pwb login` # This will use the `rsdw` family which is already committed to the repo
+
+Or, if you have PWB installed already:
+1. Clone this repo into the same folder as your PWB installation
+
+Also install [AWB](https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser):
+1. Extract the latest zip file from [SourceForge](https://sourceforge.net/projects/autowikibrowser/)
+1. Launch AutoWikiBrowser.exe
 
 ## Usage
 
