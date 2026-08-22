@@ -944,9 +944,9 @@ PROPER_NOUNS = [
 
     # Other
     "Soulscourge",
-    [r"(\w)/Level up table", "\\1/Level up table"],
-    [r"(\w)/Strategies", "\\1/Strategies"],
-    [r"(\w)/Mechanics", "\\1/Mechanics"],
+    [r"(?:\w)/Level up table", "/Level up table"],
+    [r"(?:\w)/Strategies", "/Strategies"],
+    [r"(?:\w)/Mechanics", "/Mechanics"],
     "MOUNT:",
     "PATTERN:",
     "PLAN:",
@@ -968,7 +968,13 @@ PROPER_NOUN_PATTERNS = [
 
 def restore_proper_nouns(text):
     for pattern, replacement in PROPER_NOUN_PATTERNS:
+        # Fast case
+        if replacement not in text:
+            continue
+
+        # Slower case
         text = pattern.sub(replacement, text)
+
     return text
 
 # This method fixes the weird behavior of inflect, e.g.
