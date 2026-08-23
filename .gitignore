@@ -25,5 +25,8 @@ pwb_fix_doubles_list.txt
 # Artifacts
 *-clean.txt
 *-narrow.xml
+*-narrow.json
 *-broad.xml
+*-broad.json
 *.config.xml
+*-settings.json
