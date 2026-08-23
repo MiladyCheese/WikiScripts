@@ -1,4 +1,6 @@
+import os
 import re
+import sys
 
 import inflect
 p = inflect.engine()
@@ -1016,3 +1018,9 @@ def plural(text):
 
 def has_caps(text):
     return any(c.isupper() for c in text)
+
+# Helper to restart the python script entirely,
+# since precompiling regexes can be slow and users of this lib may want to daemonise it.
+def restart():
+    print("Reloading...")
+    os.execv(sys.executable, [sys.executable] + sys.argv)

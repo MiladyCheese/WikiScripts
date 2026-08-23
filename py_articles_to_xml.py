@@ -3,11 +3,12 @@
 import re
 import sys
 from pathlib import Path
+import importlib
 
 import inflect
 p = inflect.engine()
 
-from util_nouns import restore_proper_nouns, singular, plural
+from util_nouns import restore_proper_nouns, singular, plural, restart
 
 # Usage:
     # - Run py_list_cleanup.py on your list first
@@ -585,16 +586,7 @@ ADDITIONAL_BROAD = """\
       </Replacement>
 """
 
-def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: `{sys.argv[0]} list.txt` # Will output list-broad.xml and list-narrow.xml")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    input_path = Path(input_file)
-    output_narrow = input_path.with_name(f"{input_path.stem}-narrow.xml")
-    output_broad = input_path.with_name(f"{input_path.stem}-broad.xml")
-
+def generate(input_file, output_narrow, output_broad):
     with open(input_file, encoding="utf-8") as fin, \
          open(output_narrow, "w", encoding="utf-8", newline="\n") as fout_narrow, \
          open(output_broad, "w", encoding="utf-8", newline="\n") as fout_broad:
@@ -698,7 +690,32 @@ def main():
         fout_narrow.write(ADDITIONAL_NARROW)
         fout_broad.write(ADDITIONAL_BROAD)
 
-    print("Done.")
+    print("Done generating XML.")
+
+def main():
+    if len(sys.argv) != 2:
+        print(f"Usage: `{sys.argv[0]} list.txt` # Will output list-broad.xml and list-narrow.xml")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    input_path = Path(input_file)
+    output_narrow = input_path.with_name(f"{input_path.stem}-narrow.xml")
+    output_broad = input_path.with_name(f"{input_path.stem}-broad.xml")
+
+    while True:
+        # First time is automatic
+        generate(input_file, output_narrow, output_broad)
+
+        # Then daemonise (because loading the `inflect` library + compiling regexes on startup is slow)
+        print("Press enter to regen if nouns have changed (or type 'r' to fully reload if templates have changed):")
+        line = input()
+
+        if line.lower() == "r":
+            restart()
+
+        # else continue
+        importlib.reload(sys.modules["util_nouns"])
+        from util_nouns import restore_proper_nouns, singular, plural, restart
 
 if __name__ == "__main__":
     main()

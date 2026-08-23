@@ -10,15 +10,7 @@ from util_nouns import singular, plural
     # - Run this script on your cleaned-up list of Special:AllPages
     # (clean up based on instructions in util_nouns.py)
 
-def main():
-    if len(sys.argv) != 2:
-        print(f"Usage: `{sys.argv[0]} list.txt` # Will output list-clean.txt")
-        sys.exit(1)
-
-    input_file = sys.argv[1]
-    input_path = Path(input_file)
-    output_file = input_path.with_name(f"{input_path.stem}-clean{input_path.suffix}")
-
+def generate(input_file, output_file):
     seen = set()
 
     with open(input_file, encoding="utf-8") as fin, \
@@ -37,7 +29,24 @@ def main():
         for line in sorted(sorted(seen), key=len):
             fout.write(line + "\n")
 
-    print("Done.")
+    print("Done cleaning list.")
+
+def main():
+    if len(sys.argv) != 2:
+        print(f"Usage: `{sys.argv[0]} list.txt` # Will output list-clean.txt")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    input_path = Path(input_file)
+    output_file = input_path.with_name(f"{input_path.stem}-clean{input_path.suffix}")
+
+    while True:
+        # First time is automatic
+        generate(input_file, output_file)
+
+        # Then daemonise (because loading the `inflect` library on startup can be slow)
+        print("Press enter to regen if list has changed:")
+        line = input()
 
 if __name__ == "__main__":
     main()
