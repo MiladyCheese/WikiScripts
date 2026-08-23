@@ -12,35 +12,27 @@ from util_nouns import restore_proper_nouns, singular, plural
 # Usage:
     # - Run py_list_cleanup.py on your list first
     # - Make sure lowercase redirects already exist (run pwb_redirect.py)
-    # - Run this script on the cleaned list to generate JSON
-    # - Paste JSON into a JWB settings file at the appropriate location
-    # - Load settings file in JWB
-    # - Run "find and replace" mode on whatever article list you want
-
-def escape_json(text):
-    return text \
-        .replace("\\", "\\\\") \
-        .replace("\"", "\\\"")
+    # - Run this script on the cleaned list to generate XML
+    # - Paste XML into an AWB settings file at the appropriate location
+    # - Load settings file in AWB
+    # - Run "find and replace" mode on whatever AWB list you want
 
 def escape_xml(text):
     return text \
         .replace("&", "&amp;")
 
 def escape_regex(text):
-    return re.escape(text) \
-        .replace("\\", "\\\\") \
-        .replace("\"", "\\\"") \
-        .replace("\\\\\\\\", "\\\\") # Undo double-applying escapes (hacky workaround for now)
+    return re.escape(text)
 
 # Add \b to the back only if appropriate ("Wanted!" is an example of a tricky word)
 def escape_regex_boundBack(text):
     needs_back = re.search(r"\W$", text) is None
-    return f"{escape_regex(text)}{"\\\\b" if needs_back else ""}"
+    return f"{escape_regex(text)}{"\\b" if needs_back else ""}"
 
 # Add \b to the front + back only if appropriate ("Wanted!" is an example of a tricky word)
 def escape_regex_boundBoth(text):
     needs_front = re.search(r"^\W", text) is None
-    return f"{"\\\\b" if needs_front else ""}{escape_regex_boundBack(text)}"
+    return f"{"\\b" if needs_front else ""}{escape_regex_boundBack(text)}"
 
 # Unused except when undoing things like disambiguation pages
 def title_case(text):
@@ -58,394 +50,550 @@ def lower_case(text):
 
 # Narrow replacements should have AWB "ignore links etc." turned OFF or they won't accomplish much.
 TEMPLATE_NARROW = """\
-            {{
-                "replaceText": "\\[\\[{escaped}\\]\\]",
-                "replaceWith": "[[{sentence_case}]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "\\[\\[{escaped}\\|({escaped})\\]\\]",
-                "replaceWith": "[[$1]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "\\[\\[{escaped}\\|{escaped_2}\\]\\]",
-                "replaceWith": "[[{sentence_case}|{sentence_case_2}]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`])([ /-])(\\()?\\[\\[{escaped}\\]\\]",
-                "replaceWith": "$1$2[[{lower_case}]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`])([ /-])(\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]",
-                "replaceWith": "$1$2[[{lower_case}|{lower_case_2}]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`])([ /-])(\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]",
-                "replaceWith": "$1$2[[$3|{lower_case_1}]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
+      <Replacement>
+        <Find>\\[\\[{escaped}\\]\\]</Find>
+        <Replace>[[{sentence_case}]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>\\[\\[{escaped}\\|({escaped})\\]\\]</Find>
+        <Replace>[[$1]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>\\[\\[{escaped}\\|{escaped_2}\\]\\]</Find>
+        <Replace>[[{sentence_case}|{sentence_case_2}]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`])([ /-])(\\()?\\[\\[{escaped}\\]\\]</Find>
+        <Replace>$1$2[[{lower_case}]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`])([ /-])(\\()?\\[\\[{escaped}\\|({escaped_2})\\]\\]</Find>
+        <Replace>$1$2[[{lower_case}|{lower_case_2}]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`])([ /-])(\\()?\\[\\[({escaped})\\|({escaped_1})\\]\\]</Find>
+        <Replace>$1$2[[$3|{lower_case_1}]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 ADDITIONAL_NARROW = """\
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`])( |-)\\[\\[Power Level\\|Power Level( \\d)?\\]\\]",
-                "replaceWith": "$1[[power level]]$2",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`])( |-)\\[\\[Power Level\\|Tier( \\d)?\\]\\]",
-                "replaceWith": "$1[[power level]]$2",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "\\[\\[Power Level\\|Power Level( \\d)?\\]\\]",
-                "replaceWith": "[[Power level]]$1",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "for \\[\\[Compost\\|Composting\\]\\]",
-                "replaceWith": "for [[compost]]ing",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`]) \\[\\[Garou \\(race\\)\\|Garou\\]\\]",
-                "replaceWith": " [[Garou (race)|garou]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "Moon \\[\\[(Garou \\(race\\)\\|)?Garou\\]\\]",
-                "replaceWith": "Moon [[$1Garou]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "Lunar \\[\\[(Garou \\(race\\)\\|)?Garou\\]\\]",
-                "replaceWith": "Lunar [[$1Garou]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`]) \\[\\[Dragonkin \\(race\\)\\|Dragonkin\\]\\]",
-                "replaceWith": " [[Dragonkin (race)|dragonkin]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`]) \\[\\[Dragonkin Vault\\|Vault\\]\\]",
-                "replaceWith": " [[dragonkin vault|vault]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "the \\[\\[Player Character(\\|Player)?\\]\\]",
-                "replaceWith": "the [[player]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/\\]&'\\"`]) \\[\\[Wither\\]\\](ed|ing)",
-                "replaceWith": " [[wither]]$1",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) \\[\\[Ranged\\]\\](,)? (and|or) \\[\\[Magic\\]\\]",
-                "replaceWith": " [[ranged]]$1 $2 [[magic]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) \\[\\[Magic\\]\\](,)? (and|or) \\[\\[Ranged\\]\\]",
-                "replaceWith": " [[magic]]$1 $2 [[ranged]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) \\[\\[Melee((\\]\\])? (\\[\\[)?(armour|attack))",
-                "replaceWith": " [[melee$1",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) \\[\\[Ranged((\\]\\])? (\\[\\[)?(armour|attack))",
-                "replaceWith": " [[ranged$1",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) \\[\\[Magic(al)?((\\]\\])? (\\[\\[)?(armour|attack))",
-                "replaceWith": " [[magic$1$2",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(for|in) \\[\\[Construction\\]\\]",
-                "replaceWith": "$1 [[construction]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(after) \\[\\[Mining\\]\\]",
-                "replaceWith": "$1 [[mining]]",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "README": "Fake replacement to make this more obvious. Disambiguation list caps should not be lowered."
-                "replaceText": "\\{\\{(Disambig(uation)?)\\}\\}",
-                "replaceWith": "{{$1}} ⚠⚠⚠",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`])( |-)\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
+        <Replace>$1[[power level]]$2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`])( |-)\\[\\[Power Level\\|Tier( \\d)?\\]\\]</Find>
+        <Replace>$1[[power level]]$2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>\\[\\[Power Level\\|Power Level( \\d)?\\]\\]</Find>
+        <Replace>[[Power level]]$1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>for \\[\\[Compost\\|Composting\\]\\]</Find>
+        <Replace>for [[compost]]ing</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Garou \\(race\\)\\|Garou\\]\\]</Find>
+        <Replace> [[Garou (race)|garou]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>Moon \\[\\[(Garou \\(race\\)\\|)?Garou\\]\\]</Find>
+        <Replace>Moon [[$1Garou]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>Lunar \\[\\[(Garou \\(race\\)\\|)?Garou\\]\\]</Find>
+        <Replace>Lunar [[$1Garou]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Dragonkin \\(race\\)\\|Dragonkin\\]\\]</Find>
+        <Replace> [[Dragonkin (race)|dragonkin]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Dragonkin Vault\\|Vault\\]\\]</Find>
+        <Replace> [[dragonkin vault|vault]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the \\[\\[Player Character(\\|Player)?\\]\\]</Find>
+        <Replace>the [[player]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Wither\\]\\](ed|ing)</Find>
+        <Replace> [[wither]]$1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Ranged\\]\\](,)? (and|or) \\[\\[Magic\\]\\]</Find>
+        <Replace> [[ranged]]$1 $2 [[magic]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Magic\\]\\](,)? (and|or) \\[\\[Ranged\\]\\]</Find>
+        <Replace> [[magic]]$1 $2 [[ranged]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Melee((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Replace> [[melee$1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Ranged((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Replace> [[ranged$1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Magic(al)?((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Replace> [[magic$1$2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(for|in) \\[\\[Construction\\]\\]</Find>
+        <Replace>$1 [[construction]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(after) \\[\\[Mining\\]\\]</Find>
+        <Replace>$1 [[mining]]</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>\\{\\{(Disambig(uation)?)\\}\\}</Find>
+        <!-- Fake replacement to make this more obvious. Disambiguation list caps should not be lowered. -->
+        <Replace>{{$1}} ⚠⚠⚠</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 # Broad replacements should have AWB "ignore links etc." turned ON or they'll break things.
 # Note that link hiding replaces [[link]] with ⌊⌊⌊⌊link⌋⌋⌋⌋ which is still usable as a negative match.
 TEMPLATE_BROAD = """\
-            {{
-                "replaceText": "{b_escaped_1_b}",
-                "replaceWith": "{sentence_case_1}",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "{b_escaped_2_b}",
-                "replaceWith": "{sentence_case_2}",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`])([ /-])('+|\\\\()?{escaped_1_b}",
-                "replaceWith": "$1${{2}}{lower_case_1}",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
-            {{
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`])([ /-])('+|\\\\()?{escaped_2_b}",
-                "replaceWith": "$1${{2}}{lower_case_2}",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }},
+      <Replacement>
+        <Find>{b_escaped_1_b}</Find>
+        <Replace>{sentence_case_1}</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>{b_escaped_2_b}</Find>
+        <Replace>{sentence_case_2}</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])([ /-])('+|\\()?{escaped_1_b}</Find>
+        <Replace>$1${{2}}{lower_case_1}</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])([ /-])('+|\\()?{escaped_2_b}</Find>
+        <Replace>$1${{2}}{lower_case_2}</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 # Plural version of Attack skill is impossible to regex away in nouns list
 ADDITIONAL_BROAD = """\
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`])( |-)Attacks",
-                "replaceWith": "$1attacks",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`])( |-)Attack (is|it|them|her|him|the|with|from|where|speed)",
-                "replaceWith": "$1attack $2",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(breath|based|an|to|will|parrying|magic|'s) Attack\\\\b",
-                "replaceWith": "$1 attack",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(a|to|for|use|using|wielding) Melee\\\\b",
-                "replaceWith": "$1 melee",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(a|to|for|use|using|wielding) Ranged\\\\b",
-                "replaceWith": "$1 ranged",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(a|to|for|use|using|wielding|air|water|earth|fire) Magic\\\\b",
-                "replaceWith": "$1 magic",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) Magic dart",
-                "replaceWith": " magic dart",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) Ranged(,)? (and|or) Magic",
-                "replaceWith": " ranged$1 $2 magic",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) Magic(,)? (and|or) Ranged",
-                "replaceWith": " magic$1 $2 ranged",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(from|while|by) Mining",
-                "replaceWith": "$1 mining",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) Mining (node)",
-                "replaceWith": " mining $1",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(for|in) Construction",
-                "replaceWith": "$1 construction",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(by|while|whilst) Cooking",
-                "replaceWith": "$1 cooking",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) Cooking (a)",
-                "replaceWith": " cooking $1",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(by|for) Farming",
-                "replaceWith": "$1 farming",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) getting started with",
-                "replaceWith": " getting started with",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "the goblin series",
-                "replaceWith": "the Goblin series",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "the garou series",
-                "replaceWith": "the Garou series",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "the dragon attack series",
-                "replaceWith": "the Dragon Attack series",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "spells tab",
-                "replaceWith": "Spells tab",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(a|little) shelter",
-                "replaceWith": "$1 shelter",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?<=[a-zA-Z0-9,%)>/⌋&'\\"`]) shelter(ed)? (from)",
-                "replaceWith": " shelter$1 $2",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            },
-            {
-                "replaceText": "(?:(?<!on |'s |of |at )(?<!his |her |per |the )(?<!each )(?<!their ))Death(?! of)",
-                "replaceWith": "Death",
-                "useRegex": true,
-                "regexFlags": "gi",
-                "ignoreNowiki": true
-            }
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])( |-)Attacks</Find>
+        <Replace>$1attacks</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`])( |-)Attack (is|it|them|her|him|the|with|from|where|speed)</Find>
+        <Replace>$1attack $2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(breath|based|an|to|will|parrying|magic|'s) Attack\\b</Find>
+        <Replace>$1 attack</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(a|to|for|use|using|wielding) Melee\\b</Find>
+        <Replace>$1 melee</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(a|to|for|use|using|wielding) Ranged\\b</Find>
+        <Replace>$1 ranged</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(a|to|for|use|using|wielding|air|water|earth|fire) Magic\\b</Find>
+        <Replace>$1 magic</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Magic dart</Find>
+        <Replace> magic dart</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Ranged(,)? (and|or) Magic</Find>
+        <Replace> ranged$1 $2 magic</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Magic(,)? (and|or) Ranged</Find>
+        <Replace> magic$1 $2 ranged</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(from|while|by) Mining</Find>
+        <Replace>$1 mining</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Mining (node)</Find>
+        <Replace> mining $1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(for|in) Construction</Find>
+        <Replace>$1 construction</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(by|while|whilst) Cooking</Find>
+        <Replace>$1 cooking</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Cooking (a)</Find>
+        <Replace> cooking $1</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(by|for) Farming</Find>
+        <Replace>$1 farming</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) getting started with</Find>
+        <Replace> getting started with</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the goblin series</Find>
+        <Replace>the Goblin series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the garou series</Find>
+        <Replace>the Garou series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>the dragon attack series</Find>
+        <Replace>the Dragon Attack series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>spells tab</Find>
+        <Replace>Spells tab</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(a|little) shelter</Find>
+        <Replace>$1 shelter</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) shelter(ed)? (from)</Find>
+        <Replace> shelter$1 $2</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>(?:(?&lt;!on |'s |of |at )(?&lt;!his |her |per |the )(?&lt;!each )(?&lt;!their ))Death(?! of)</Find>
+        <Replace>Death</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 def main():
     if len(sys.argv) != 2:
-        print(f"Usage: `{sys.argv[0]} list.txt` # Will output list-broad.json and list-narrow.json")
+        print(f"Usage: `{sys.argv[0]} list.txt` # Will output list-broad.xml and list-narrow.xml")
         sys.exit(1)
 
     input_file = sys.argv[1]
     input_path = Path(input_file)
-    output_narrow = input_path.with_name(f"{input_path.stem}-narrow.json")
-    output_broad = input_path.with_name(f"{input_path.stem}-broad.json")
+    output_narrow = input_path.with_name(f"{input_path.stem}-narrow.xml")
+    output_broad = input_path.with_name(f"{input_path.stem}-broad.xml")
 
     with open(input_file, encoding="utf-8") as fin, \
          open(output_narrow, "w", encoding="utf-8", newline="\n") as fout_narrow, \
@@ -475,14 +623,14 @@ def main():
             lower_2 = lower_case(raw_2)
 
             # Then escape each one as a final pass (to avoid repeat-escaping above)...
-            sentence = escape_json(sentence)
-            lower = escape_json(lower)
+            sentence = escape_xml(sentence)
+            lower = escape_xml(lower)
 
-            sentence_1 = escape_json(sentence_1)
-            lower_1 = escape_json(lower_1)
+            sentence_1 = escape_xml(sentence_1)
+            lower_1 = escape_xml(lower_1)
 
-            sentence_2 = escape_json(sentence_2)
-            lower_2 = escape_json(lower_2)
+            sentence_2 = escape_xml(sentence_2)
+            lower_2 = escape_xml(lower_2)
 
             # Then ALSO escape regex for the "Find" (but not "Replace") fields.
             x_lower = escape_regex(lower)
