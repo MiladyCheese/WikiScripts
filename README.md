@@ -19,12 +19,15 @@ Install [PWB](https://www.mediawiki.org/wiki/Manual:Pywikibot/Installation):
 1. Change the password in `user-password.cfg`
 1. `pwb login` # This will use the `rsdw` family which is already committed to the repo
 
-Or, if you have PWB installed already:
+(Or, if you have PWB installed already):
 1. Clone this repo into the same folder as your PWB installation
 
-Also install [AWB](https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser):
+Install [AWB](https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser):
 1. Extract the latest zip file from [SourceForge](https://sourceforge.net/projects/autowikibrowser/)
 1. Launch AutoWikiBrowser.exe
+
+Ignore the changes you made to the example files:
+1. `git update-index --assume-unchanged user-password.cfg user-config.py .python-version wiki-scripts-data/*.config.xml`
 
 ## Usage
 
