@@ -34,6 +34,8 @@ rasmodel
 death's temple
 Moon Sprite Shaman - Anamcara
 Prayer points
+Lord of Light
+Holy Order of Paladins
 
 ---done---
 God Wars

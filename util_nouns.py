@@ -211,6 +211,7 @@ PROPER_NOUNS = [
     "Rag and Bone Garou",
     "The Mirror Cracked",
     "Kuldra's Saga",
+    "Beyond the Grave",
     "The Collector Calling",
 
     # Dates
@@ -249,6 +250,7 @@ PROPER_NOUNS = [
     "Big High War God",
     "Guthix",
     "Saradomin",
+    "Lord of Light",
     "Zamorak",
     "Icthlarin",
     "Icthlarian",
@@ -260,6 +262,8 @@ PROPER_NOUNS = [
     "Black Knight",
     "White Knight",
     "Knights of Saradomin",
+    "Holy Order of Paladins",
+    "Paladin", # traditionally a common noun but frequently used to mean the Holy Order of Paladins
     "Temple Knight",
     "Lunar Garou",
     "Moon Garou",
@@ -332,6 +336,8 @@ PROPER_NOUNS = [
     "Laguna",
     "Manathep - The Bereaved",
     "Manathep",
+    "Shangruuh - Alcarrid Envoy",
+    "Shangruuh",
     "Moon Sprite Shaman - Anamcara",
     "Anamcara",
     "Muncher",
