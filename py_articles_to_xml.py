@@ -155,6 +155,26 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
+        <Find>he \\[\\[Garou \\(race\\)\\|Garou\\]\\] series</Find>
+        <Replace>he Garou series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
+        <Find>he \\[\\[Dragonkin \\(race\\)\\|Dragonkin\\]\\] series</Find>
+        <Replace>he Dragonkin series</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
+      <Replacement>
         <Find>(?&lt;=[a-zA-Z0-9,%)>/\\]&amp;'"`]) \\[\\[Garou \\(race\\)\\|Garou\\]\\]</Find>
         <Replace> [[Garou (race)|garou]]</Replace>
         <Comment />
@@ -245,7 +265,7 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Melee((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Melee((\\]\\])? (\\[\\[)?(armour|equipment|weapon|attack))</Find>
         <Replace> [[melee$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -255,7 +275,7 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Ranged((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Ranged((\\]\\])? (\\[\\[)?(armour|equipment|weapon|attack))</Find>
         <Replace> [[ranged$1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -265,7 +285,7 @@ ADDITIONAL_NARROW = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Magic(al)?((\\]\\])? (\\[\\[)?(armour|attack))</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) \\[\\[Magic(al)?((\\]\\])? (\\[\\[)?(armour|equipment|weapon|attack))</Find>
         <Replace> [[magic$1$2</Replace>
         <Comment />
         <IsRegex>true</IsRegex>

@@ -80,7 +80,6 @@ PROPER_NOUNS = [
     "Nightmare",
     "Crucible",
     "Outlook Ruins",
-    "Purification Pool",
     "Runecrafting Guild",
     "Scorned Wilderness",
     "Silverthorn Keep",
@@ -102,7 +101,7 @@ PROPER_NOUNS = [
     "Bloodblight",
     "Dowdun",
     "Umbral",
-    [r"Sands\b", "Sands"], # Don't match "Sandstone"
+    [r"\bSands\b", "Sands"], # Don't match "sandstone" or "sandstorm"
     "Highlands",
     # And agility courses:
     "Chasm Dash",
@@ -627,8 +626,8 @@ PROPER_NOUNS = [
     "Sea Life",
     "Sugar Rush",
     "Frosted Flavours",
-    # Not "Antipoison" which is more common as an item
-    # Not "Antifire" which is more common as an item
+    "Antipoison",
+    "Antifire",
     "Focused Strikes",
     "Focused Casting",
     "Focused Artisan",
