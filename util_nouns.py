@@ -569,6 +569,14 @@ PROPER_NOUNS = [
 
     # Special attacks: TODO
     "Abyssal Snare",
+    "Baptism of Fire",
+    "Burning Execution",
+    # "Enchanted Weapon",
+    "Battering Ram",
+    "Dragon Breath Resistance",
+    "Hollow Vessel",
+    "Lunar Rain",
+    "Burning Endurance",
 
     # Spells: https://dragonwilds.runescape.wiki/w/Special:Bucket?bucket=infobox_spell&select=*&where=&limit=500&offset=0
     "Windstep",

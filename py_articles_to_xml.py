@@ -475,7 +475,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Mining (node)</Find>
+        <Find>(?&lt;=[a-zA-Z0-9,%)>/⌋&amp;'"`]) Mining (a\\b|node)</Find>
         <Replace> mining $1</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
@@ -495,7 +495,7 @@ ADDITIONAL_BROAD = """\
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
       <Replacement>
-        <Find>(by|while|whilst) Cooking</Find>
+        <Find>(by|while|whilst|successfully) Cooking</Find>
         <Replace>$1 cooking</Replace>
         <Comment />
         <IsRegex>true</IsRegex>
