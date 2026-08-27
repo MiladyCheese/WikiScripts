@@ -36,6 +36,7 @@ Moon Sprite Shaman - Anamcara
 Prayer points
 Lord of Light
 Holy Order of Paladins
+Kharidian Desert
 
 ---done---
 God Wars
@@ -55,6 +56,7 @@ Dragon Breath Resistance
 Hollow Vessel
 Lunar Rain
 Burning Endurance
+Cave of Screams
 
 ---other---
 north

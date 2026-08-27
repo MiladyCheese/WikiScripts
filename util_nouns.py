@@ -135,6 +135,7 @@ PROPER_NOUNS = [
     "The Nexus",
     "The Pastures",
     "Alcarrid Oasis",
+    "Alcarrid",
     "Dunes of Uzzer",
     "Manafem Plains",
     "The Burning Spire",
@@ -160,6 +161,8 @@ PROPER_NOUNS = [
     "Wizard's Tower",
     "King's Pass",
     "Death's Temple",
+    "Cave of Screams",
+    "Kharidian Desert",
 
     # Shops
     "Death's Exchange",
@@ -320,26 +323,30 @@ PROPER_NOUNS = [
     "Pulpknuckle",
     "Slopfinger",
     "Xikotal",
-    "Iasadair - The Merchant",
-    "Iasadair",
+    "Moon Sprite Shaman - Anamcara",
+    "Anamcara",
+    "Ancamairon - Alcarrid Elder"
+    "Ancamairon"
     "Beartach - The Merchant",
     "Beartach",
     "Domri - The Merchant",
     "Domri",
-    "Lehran - The Archaeologist",
-    "Lehran",
+    "Gaimbín - Uzzer Elder",
+    "Gaimbín",
     "Hedric - The Hunter",
     "Hedric",
+    "Iasadair - The Merchant",
+    "Iasadair",
     "Lagra - The Butcher",
     "Lagra",
     "Laguna - The Bard",
     "Laguna",
+    "Lehran - The Archaeologist",
+    "Lehran",
     "Manathep - The Bereaved",
     "Manathep",
     "Shangruuh - Alcarrid Envoy",
     "Shangruuh",
-    "Moon Sprite Shaman - Anamcara",
-    "Anamcara",
     "Muncher",
     "Wise Old Man",
     "Archmage Alric",
@@ -792,7 +799,7 @@ PROPER_NOUNS = [
     [r"\bOver Eating\b", "Over Eating"],
     # [r"\bLifeward\b", "Lifeward"], # No, this is like "health"
 
-    # Book titles: https://dragonwilds.runescape.wiki/w/Template:Tomes and https://dragonwilds.runescape.wiki/w/Category:Quest_Items
+    # Proper book/lore titles: https://dragonwilds.runescape.wiki/w/Template:Tomes and https://dragonwilds.runescape.wiki/w/Category:Quest_Items
     "The Pride of the Avernic",
     "The Importance of Chaos",
     "Aetheric Fundamentals, a Primordial Primer",
@@ -836,6 +843,7 @@ PROPER_NOUNS = [
     "Forbidden Scroll",
     "Castle Extra",
     "Hall of Heroes",
+    "The Story So Far",
 
     # Music tracks: https://dragonwilds.runescape.wiki/w/Category:Music_tracks
     "A Wild World To Tame",
