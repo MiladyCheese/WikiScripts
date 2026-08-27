@@ -236,6 +236,16 @@ PROPER_NOUNS = [
     "October",
     "November",
     "December",
+    "Rintra",
+    "Moevyng",
+    "Bennath",
+    "Raktuber",
+    "Pentember",
+    "Fentuary",
+    "Septober",
+    "Ire of Phyrrys",
+    "Novtumber",
+    "Wintumber",
 
     # Events
     "Anima Twist",
@@ -266,7 +276,7 @@ PROPER_NOUNS = [
     "White Knight",
     "Knights of Saradomin",
     "Holy Order of Paladins",
-    "Paladin", # traditionally a common noun but frequently used to mean the Holy Order of Paladins
+    "Paladin", # traditionally a common noun but frequently used to mean the Holy Order of Paladins, with some exceptions
     "Temple Knight",
     "Lunar Garou",
     "Moon Garou",
@@ -347,6 +357,8 @@ PROPER_NOUNS = [
     "Manathep",
     "Shangruuh - Alcarrid Envoy",
     "Shangruuh",
+    "Valas - The Blacksmith",
+    "Valas",
     "Muncher",
     "Wise Old Man",
     "Archmage Alric",
@@ -414,6 +426,8 @@ PROPER_NOUNS = [
     "Magpie King",
     "Shaun",
     "Nolan Scathe",
+    "Elvarg",
+    "Winston Henning",
 
     # List of NPCs: https://dragonwilds.runescape.wiki/w/Non-player_character?action=edit
     "Atilius Rasmodel",
@@ -790,11 +804,11 @@ PROPER_NOUNS = [
     [r"\bBurning\b", "Burning"],
     [r"\bEncumbered\b", "Encumbered"],
     [r"\bFatigue\b", "Fatigue"],
-    [r"(?<!weapon )\bPoison\b(?! ichor| rock)", "Poison"],
+    [r"(?<!weapon )\bPoison\b(?! ichor| rock| breath| attack)", "Poison"],
     [r"\bShocked\b", "Shocked"],
     [r"\bSoulscourge\b", "Soulscourge"],
     [r"\bWater Wading\b", "Water Wading"],
-    [r"\bWither\b", "Wither"],
+    [r"\bWither\b(?! water)", "Wither"],
     [r"\bScorch\b(?! leather)", "Scorch"],
     [r"\bOver Eating\b", "Over Eating"],
     # [r"\bLifeward\b", "Lifeward"], # No, this is like "health"

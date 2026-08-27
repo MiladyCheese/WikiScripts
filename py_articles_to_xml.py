@@ -604,6 +604,16 @@ ADDITIONAL_BROAD = """\
         <BeforeOrAfter>false</BeforeOrAfter>
         <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
       </Replacement>
+      <Replacement>
+        <Find>White Knight Paladin</Find>
+        <Replace>White Knight paladin</Replace>
+        <Comment />
+        <IsRegex>true</IsRegex>
+        <Enabled>true</Enabled>
+        <Minor>true</Minor>
+        <BeforeOrAfter>false</BeforeOrAfter>
+        <RegularExpressionOptions>IgnoreCase</RegularExpressionOptions>
+      </Replacement>
 """
 
 def generate(input_file, output_narrow, output_broad):
