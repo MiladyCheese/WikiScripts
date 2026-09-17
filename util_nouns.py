@@ -53,6 +53,7 @@ PROPER_NOUNS = [
     "Bramblemead Valley",
     "Bramblemead Village",
     "Brynmoor",
+    "Brynmoor Valley",
     "Chaktan Kara",
     "Coalridge Pass",
     "Colossal Wyrm Camp",
@@ -333,12 +334,18 @@ PROPER_NOUNS = [
     "Pulpknuckle",
     "Slopfinger",
     "Xikotal",
+    "Alabrais - The Science Councillor",
+    "Alabrais",
     "Moon Sprite Shaman - Anamcara",
     "Anamcara",
     "Ancamairon - Alcarrid Elder"
     "Ancamairon"
     "Beartach - The Merchant",
     "Beartach",
+    "Brialka - The Historian Councillor",
+    "Brialka",
+    "Chirot - The Broker Councillor",
+    "Chirot",
     "Domri - The Merchant",
     "Domri",
     "Gaimbín - Uzzer Elder",
@@ -577,6 +584,8 @@ PROPER_NOUNS = [
     "Mod Zephyer",
     "Mod Zombie",
     "Peter Michael Davison",
+    "Mod Grimm",
+    "Mod Malcolm"
     # Plus others not in category:
     "Jagex",
     "RuneScape",
@@ -901,6 +910,10 @@ PROPER_NOUNS = [
     "Tinkering Smithing",
     # Not "Village", too generic
     "Withering Wastes",
+    "Agility Course (music)",
+    "Cairn Toul",
+    "Explore Dowdun Reach",
+    "Magic Carpet (music)",
 
     # Achievements: https://dragonwilds.runescape.wiki/w/Steam_Achievements?action=edit
     "Steam achievement",
