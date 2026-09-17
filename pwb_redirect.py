@@ -74,18 +74,14 @@ def get_articles():
 # Regular expressions to skip some things:
 MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 DATE_PAGE_RE = re.compile(rf"^(?:[1-9]|[12][0-9]|3[01]) (?:{'|'.join(MONTHS)})$", re.IGNORECASE)
-DW_NAMESPACE_RE = re.compile(rf"^DW:", re.IGNORECASE)
-RS_NAMESPACE_RE = re.compile(rf"^RS:", re.IGNORECASE)
+NAMESPACE_RE = re.compile(rf"^(RS|DW|Dragonwilds):", re.IGNORECASE)
 
 def should_skip_regex(original_title):
     if DATE_PAGE_RE.match(original_title):
         logging.info(f"SKIP: DATE_PAGE_RE: {original_title}")
         return True
-    if DW_NAMESPACE_RE.match(original_title):
-        logging.info(f"SKIP: DW_NAMESPACE_RE: {original_title}")
-        return True
-    if RS_NAMESPACE_RE.match(original_title):
-        logging.info(f"SKIP: RS_NAMESPACE_RE: {original_title}")
+    if NAMESPACE_RE.match(original_title):
+        logging.info(f"SKIP: NAMESPACE_RE: {original_title}")
         return True
 
     return False
