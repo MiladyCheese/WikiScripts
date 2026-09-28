@@ -163,6 +163,7 @@ PROPER_NOUNS = [
     "Death's Temple",
     "Cave of Screams",
     "Kharidian Desert",
+    "River Noumenon",
 
     # Shops
     "Death's Exchange",
@@ -535,6 +536,32 @@ PROPER_NOUNS = [
     "Nolan Scathe",
     "Elvarg",
     "Winston Henning",
+    "Skrexis",
+    "Otho",
+    "Olga Skulltaker",
+    "Lord Gawurin",
+    "Lionel",
+    "Lina Hesperian",
+    "Lavernius",
+    "Karia",
+    "Jillian Varden",
+    "Jenniva Milgrim",
+    "Isla",
+    "Ignatius Wormwood",
+    "Holtz",
+    "Haager",
+    "Gregor Volrath",
+    "Falistrius",
+    "Elias Oculus",
+    "Drorkar",
+    "Claus",
+    "Callius Waithe",
+    "Bilar Amaris",
+    "Mrs Hyacinth",
+    "Moragrin",
+    "Mucher",
+    "Putrillus",
+    "Lougrim",
 
     # Emotes
     "Grab Attention",
@@ -580,9 +607,11 @@ PROPER_NOUNS = [
     "Mod Sylvan",
     "Mod Zephyer",
     "Mod Zombie",
+    # More
     "Peter Michael Davison",
     "Mod Grimm",
     "Mod Malcolm"
+    "Mod Skips",
     # Plus others not in category:
     "Jagex",
     "RuneScape",
@@ -604,12 +633,14 @@ PROPER_NOUNS = [
     "Hollow Vessel",
     "Lunar Rain",
     "Burning Endurance",
+    "Whirlwind Slash",
 
     # Spells: https://dragonwilds.runescape.wiki/w/Special:Bucket?bucket=infobox_spell&select=*&where=&limit=500&offset=0
     "Windstep",
     "Tempest Shield",
     "Enchant Weapon: Fire",
     "Enchant Weapon: Air",
+    "Enchant Weapon: Water",
     "Rocksplosion",
     "Summon Stone Spirits",
     "Axtral Projection",
@@ -641,6 +672,8 @@ PROPER_NOUNS = [
     "Phase Dash",
     "Rapid Growth",
     "Mucksplosion",
+    "Vengeance",
+    "Home Teleport",
 
     # Perks: https://dragonwilds.runescape.wiki/w/Template:Perks?action=edit
     "Arcane Aligned",
@@ -800,6 +833,28 @@ PROPER_NOUNS = [
     # Other
     "Burning Endurance",
     "Ferocious Furnace",
+    "Axtral Projection Upgrade",
+    "Wood Weight Reduction",
+    "Fish Weight Reduction",
+    "Increase Net Fishing Catch Chance",
+    "Tempest Shield Upgrade",
+    "Sprint Attacks",
+    "Experienced Angler",
+    "Overdrive",
+    "Magical Mending Upgrade",
+    "Overdrive Upgrade",
+    "Superheat Upgrade",
+    "Durability Loss on Equipment",
+    "Construction Material Weight Reduction",
+    "Eye of Occulus Upgrade",
+    "Countryside",
+    "Scattershot",
+    "Flames of Rage",
+    "Leaping Slash",
+    "Abyssal Snare",
+    "Barge",
+    "Block Breaker",
+    "Lacerate",
 
     # Status effects: https://dragonwilds.runescape.wiki/w/Template:Statuses?action=edit
     # Many of these are also used in sentences like "withered" so should not be caps.
@@ -856,6 +911,36 @@ PROPER_NOUNS = [
     "Tome of the Dragon Slayer",
     "Tome of the Titan",
     "Tome of the Undying",
+    "Forbidden Scroll - 'Moon Goddess'",
+    "Forbidden Scroll - 'Old Kingdom'",
+    "Forbidden Scroll - 'Sun Demon'",
+    "Forbidden Scroll - 'The Schism'",
+    # Art:
+    "Brynmoor Swamp Toxic Night tapestry",
+    "Brynmoor Lake Flora tapestry",
+    "Dowdun Reach Approach tapestry",
+    "Dowdun Reach Courtyard tapestry",
+    "Dowdun Reach Crystal tapestry",
+    "Dowdun Reach Halls tapestry",
+    "Dowdun Reach Library tapestry",
+    "Dowdun Reach Temple tapestry",
+    "Brynmoor Hills tapestry",
+    "Brynmoor Lake tapestry",
+    "Brynmoor Swamp tapestry",
+    "Brynmoor Swamp Toxic tapestry",
+    "Brynmoor Swamp Night tapestry",
+    "Umbral Sands Arena tapestry",
+    "Umbral Sands Landscape tapestry",
+    "Umbral Sands Pit tapestry",
+    "Umbral Sands Ruins tapestry",
+    "Umbral Sands Tower tapestry",
+    "Ghornfell Caves tapestry",
+    "Ghornfell Forest tapestry",
+    "Ghornfell Highlands tapestry",
+    "Ghornfell Meadows tapestry",
+    "Ghornfell Toxic tapestry",
+    "Ghornfell Water tapestry",
+    "Fellhollow Arena tapestry",
     # More:
     "The Wolf and the Goddess",
     "The Tale of the Ghost Wolves",
@@ -864,6 +949,7 @@ PROPER_NOUNS = [
     "Castle Extra",
     "Hall of Heroes",
     "The Story So Far",
+
 
     # Music tracks: https://dragonwilds.runescape.wiki/w/Category:Music_tracks
     "A Wild World To Tame",
@@ -962,6 +1048,7 @@ PROPER_NOUNS = [
     "Granny's Favourite Farmer",
     "Maximum Effishiency",
     "Amazingly Acrobatic",
+    "Regicide",
 
     # Consoles/tech
     # not Steam, too generic?
@@ -977,6 +1064,7 @@ PROPER_NOUNS = [
     "Macintosh",
     "Linux",
     "Creative Mode",
+    "Deluxe Edition",
 
     # Acronyms
     [r"\bNPC\b", "NPC"],
