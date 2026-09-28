@@ -1067,6 +1067,7 @@ PROPER_NOUNS = [
     "Deluxe Edition",
 
     # Acronyms
+    [r"\bAoE\b", "AoE"],
     [r"\bNPC\b", "NPC"],
     [r"\bNPCs\b", "NPCs"],
     [r"\bPvP\b", "PvP"],
