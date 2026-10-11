@@ -46,6 +46,12 @@ logging.basicConfig(
     ]
 )
 
+# Clean up titles that live within sub-templates.
+def substitute_titles(title):
+    return title \
+        .replace("Template:Sandboxheader", "Dragonwilds:Sandbox") \
+        .replace("Dragonwilds:User help/Header", "Dragonwilds:User help")
+
 def get_articles():
     if len(sys.argv) != 2:
         print(f"Usage: `{sys.argv[0]} <file.txt>`")
@@ -161,7 +167,7 @@ def main():
         return
 
     for page in articles:
-        target_title = page.title()
+        target_title = substitute_titles(page.title())
 
         shortcuts = get_shortcuts(page)
         if not shortcuts:
