@@ -7,8 +7,8 @@ from pathlib import Path
 from util_nouns import singular, plural
 
 # Usage:
-    # - Run this script on your cleaned-up list of Special:AllPages
-    # (clean up based on instructions in util_nouns.py)
+    # - Run `py_list_cleanup.py <raw-list.txt>` on your original list of Special:AllPages
+    # (optionally clean up the list first based on instructions in util_nouns.py)
 
 def generate(input_file, output_file):
     seen = set()

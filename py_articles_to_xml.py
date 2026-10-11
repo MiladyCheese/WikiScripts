@@ -11,12 +11,12 @@ p = inflect.engine()
 from util_nouns import restore_proper_nouns, singular, plural, restart
 
 # Usage:
-    # - Run py_list_cleanup.py on your list first
-    # - Make sure lowercase redirects already exist (run pwb_redirect.py)
-    # - Run this script on the cleaned list to generate XML
-    # - Paste XML into an AWB settings file at the appropriate location
-    # - Load settings file in AWB
-    # - Run "find and replace" mode on whatever AWB list you want
+    # - First run `py_list_cleanup.py <raw-list.txt>` on your original list of Special:AllPages
+    # - Make sure lowercase redirects already exist (run `pwb_redirect.py`)
+    # - Run this script `py_articles_to_xml.py <clean-list.txt>` to generate XML
+    # - Paste the XML into an AWB settings file at the appropriate location
+    # - Load the combined settings file in AWB (it will take several seconds to parse)
+    # - Run "find and replace" mode on whatever AWB list you want (it should run fast even with thousands of regexes)
 
 def escape_xml(text):
     return text \

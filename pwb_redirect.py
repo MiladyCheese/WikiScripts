@@ -16,7 +16,7 @@ from util_nouns import restore_proper_nouns
 
 # Usage:
     # - Configure settings below
-    # - Run this script to create case-aware redirects
+    # - Run `pwb_redirect.py` to create case-aware redirects
 
 LOG_FILE = "pwb_redirect.log" # Relative to the current directory.
 

@@ -9,8 +9,12 @@ __pycache__/
 throttle.ctrl
 *.lwp
 
-# Windows stuff
+# Windows/Mac stuff
 *.lnk
+*.DS_Store
+
+# IDEs
+.idea
 
 # User junk
 archive/
@@ -20,7 +24,6 @@ archive/
 *wip.*
 wip*.*
 pwb_fix_doubles_list.txt
-*.DS_Store
 
 # Artifacts
 *-clean.txt
