@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import logging
-import time
 import sys
 import re
 
@@ -12,22 +11,24 @@ import pywikibot
 # Credentials are stored in user-config.py
 site = pywikibot.Site()
 
-from util_nouns import restore_proper_nouns
-
 # Usage:
-# - Configure settings below
-# - Run `pwb_redirect.py` to create case-aware redirects
+    # - Configure settings below
+    # - Run `pwb_detect_shortcuts.py <file.txt>`, with file containing one title per line
 
-LOG_FILE = "pwb_redirect.log" # Relative to the current directory.
+LOG_FILE = "pwb_detect_shortcuts.log" # Relative to the current directory.
 
 DRY_RUN = True # True = don't actually save anything, just log.
 LIMIT = 0 # If greater than 0: save only N changes then exit.
 
-# These will all be ignored if a filename is passed in as the first argument to the script.
-CATEGORY = False # String to filter, or False to use recent/allpages.
-RECENT = False # True to start from recently created, or False to start alphabetically.
-RECENT_SIZE = 500 # This many pages will be pre-loaded before beginning.
-START = "" # Alphabetical location to resume from, or leave blank for all.
+TEMPLATE_NAME = "shortcut" # Not case-sensitive.
+ANCHOR_DISTANCE = 3 # Max lines between a {{shortcut}} and the {{anchor}} it links to.
+# Example:
+    # ==Grammar and spelling==
+    # ==={{anchor|CASE}}Case===
+    # {{shortcut|DW:CASE|DW:STYLE#CASE}}
+
+SHORTCUT_RE = re.compile(rf"\{{\{{\s*(?:Template:)?{TEMPLATE_NAME}\s*\|([^}}]*)\}}\}}", re.IGNORECASE)
+ANCHOR_RE = re.compile(r"\{\{\s*(?:Template:)?anchor\s*\|\s*([^|}]+)", re.IGNORECASE)
 
 HALT_PAGE = pywikibot.Page(site, "User talk:ChxPotatoCurry-Bot")
 HALT_STRING = "AWB shutdown" # If this text is seen on HALT_PAGE, bot will halt.
@@ -46,127 +47,92 @@ logging.basicConfig(
 )
 
 def get_articles():
-    if len(sys.argv) > 2:
+    if len(sys.argv) != 2:
         print(f"Usage: `{sys.argv[0]} <file.txt>`")
         sys.exit(1)
 
-    if len(sys.argv) == 2:
-        list = []
-        with open(sys.argv[1], encoding="utf-8") as f:
-            for line in f:
-                list.append(pywikibot.Page(site, line))
-        return list
+    list = []
+    with open(sys.argv[1], encoding="utf-8") as f:
+        for line in f:
+            title = line.strip()
+            if title:
+                list.append(pywikibot.Page(site, title))
+    return list
 
-    # `Main` namespace is `0`
-    if CATEGORY:
-        return pywikibot.Category(site, CATEGORY).articles(namespaces=0, recurse=True, startprefix=START)
+# Returns the first name of the closest {{anchor}} within ANCHOR_DISTANCE lines, or None.
+# Ties go to the anchor above, since that's where headings normally are.
+def nearest_anchor(anchors, line_no):
+    # TODO: Gross loop
+    nearby = [(abs(i - line_no), i > line_no, name) for i, name in anchors if abs(i - line_no) <= ANCHOR_DISTANCE]
+    return min(nearby)[2] if nearby else None
 
-    if RECENT:
-        list = []
-        for entry in site.recentchanges(changetype='new', namespaces=0):
-            list.append(pywikibot.Page(site, entry['title']))
-            if len(list) >= RECENT_SIZE:
-                break
-        return list
+# Returns (shortcut, anchor) for every shortcut on the page, e.g.
+#   ==={{anchor|CASE}}Case===
+#   {{shortcut|DW:CASE}}
+#   ->
+#   returns [("DW:CASE", "CASE")]
+def get_shortcuts(page):
+    lines = page.text.splitlines()
+    # TODO: Gross loop
+    anchors = [(i, m.group(1).strip()) for i, line in enumerate(lines) for m in ANCHOR_RE.finditer(line)]
 
-    return site.allpages(namespace=0, start=START)
+    shortcuts = []
+    for i, line in enumerate(lines):
+        for m in SHORTCUT_RE.finditer(line):
+            anchor = nearest_anchor(anchors, i)
+            for shortcut in m.group(1).split("|"):
+                shortcut = shortcut.strip()
+                # Skip blanks and named params like `|align=right`.
+                if not shortcut or "=" in shortcut:
+                    continue
+                # Skip section links like `DW:STYLE#CASE` because we assume the base link already exists from earlier.
+                if "#" in shortcut:
+                    logging.info(f"SKIP: section shortcut likely exists: {shortcut}")
+                    continue
+                shortcuts.append((shortcut, anchor))
+    return shortcuts
 
-# Regular expressions to skip some things:
-MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
-DATE_PAGE_RE = re.compile(rf"^(?:[1-9]|[12][0-9]|3[01]) (?:{'|'.join(MONTHS)})$", re.IGNORECASE)
-NAMESPACE_RE = re.compile(rf"^(RS|DW|Dragonwilds):", re.IGNORECASE)
-
-def should_skip_regex(original_title):
-    if DATE_PAGE_RE.match(original_title):
-        logging.info(f"SKIP: DATE_PAGE_RE: {original_title}")
-        return True
-    if NAMESPACE_RE.match(original_title):
-        logging.info(f"SKIP: NAMESPACE_RE: {original_title}")
-        return True
-
-    return False
-
-SKIP_CATEGORIES = {
-    "Category:Dates in RuneScape: Dragonwilds",
-}
-
-def should_skip_category(page):
-    for cat in page.categories():
-        if cat.title() in SKIP_CATEGORIES:
-            logging.info(f"SKIP: category {cat.title()} (page {page.title()})")
-            return True
-    return False
-
-def should_skip_exists(redirect_page, original_title, lower_title):
-    if redirect_page.exists():
-        logging.info(f"SKIP: exists: {lower_title} -> {original_title}")
-        return True
-    return False
-
-def should_skip_deleted(original_page):
-    if RECENT and not original_page.exists():
-        logging.info(f"SKIP: recent page already deleted: {original_page.title()}")
-        return True
-    return False
-
-def should_skip_subpage(original_title):
-    if "/" in original_title:
-        logging.info(f"SKIP: subpage: {original_title}")
-        return True
-    return False
-
-def should_skip_noop(original_title, lower_title):
-    if original_title == lower_title:
-        logging.info(f"SKIP: same title: {original_title}")
-        return True
-    return False
+# Avoid creating a double redirect.
+# Returns the target title, or False if it can't be resolved.
+def resolve_target(page):
+    if not page.isRedirectPage():
+        return page.title()
+    try:
+        target = page.getRedirectTarget().title()
+    except pywikibot.exceptions.UnsupportedPageError:
+        logging.info(f"SKIP: redirect to unsupported namespace: {page.title()}")
+        return False
+    logging.info(f"RESOLVED: redirect {page.title()} -> {target}")
+    return target
 
 # Returns [created_count, skip_count, error_count].
-def try_to_redirect(original_page, original_title, lower_title):
-    # Quick heuristics to skip many pages before we even need to load them.
-    if (
-            should_skip_regex(original_title)
-            or should_skip_subpage(original_title)
-            or should_skip_noop(original_title, lower_title)
-    ):
+def try_to_redirect(shortcut_title, target_title, anchor_name):
+    redirect_page = pywikibot.Page(site, shortcut_title)
+    target_link = f"{target_title}#{anchor_name}" if anchor_name else target_title
+
+    if shortcut_title == target_title:
+        logging.info(f"SKIP: shortcut is the page itself: {shortcut_title}")
         return [0, 1, 0]
 
-    redirect_page = pywikibot.Page(site, lower_title)
-
-    # Slower heuristics.
-    if (
-            should_skip_exists(redirect_page, original_title, lower_title)
-            or should_skip_deleted(original_page)
-            or should_skip_category(original_page)
-    ):
+    if redirect_page.exists():
+        if redirect_page.isRedirectPage() and redirect_page.getRedirectTarget().title() == target_link:
+            logging.info(f"SKIP: exists: {shortcut_title} -> {target_link}")
+        else:
+            logging.warning(f"SKIP: exists but does not redirect to {target_link}: {shortcut_title}")
         return [0, 1, 0]
-
-    # Follow redirects so we don't create a double redirect.
-    redirected_from = False
-    if original_page.isRedirectPage():
-        try:
-            new_title = original_page.getRedirectTarget().title()
-        except pywikibot.exceptions.UnsupportedPageError:
-            # We can't get a Page object to the Special namespace, and that's okay.
-            logging.info(f"SKIP resolving redirect to unsupported namespace: {original_page.title()}")
-            return [0, 1, 0]
-
-        logging.info(f"RESOLVED: redirect {original_title} -> {new_title}")
-        redirected_from = original_title
-        original_title = new_title
 
     prefix = "[DRY RUN] " if DRY_RUN else ""
-    logging.info(f"{prefix}CREATE: {lower_title} -> {original_title}")
+    logging.info(f"{prefix}CREATE: {shortcut_title} -> {target_link}")
 
     if DRY_RUN:
         return [1, 0, 0]
 
     try:
-        redirect_page.text = f"#REDIRECT [[{original_title}]]"
-        redirect_page.save(f"Redirected page to [[{original_title}]]{f" (via [[{redirected_from}]])" if redirected_from else ""}")
+        redirect_page.text = f"#REDIRECT [[{target_link}]]"
+        redirect_page.save(f"Redirected {{{{shortcut}}}} to [[{target_link}]]")
         return [1, 0, 0]
     except Exception as e:
-        logging.exception(f"ERROR saving {lower_title} -> {original_title}: {e}")
+        logging.exception(f"ERROR saving {shortcut_title} -> {target_link}: {e}")
         return [0, 0, 1]
 
 # Return True if bot halt detected, otherwise False.
@@ -179,11 +145,7 @@ def should_halt():
 
     return False
 
-# Takes about 8 minutes to check 8000 pages when there's nothing to do (July 2026).
-# Otherwise, takes ~1 second per page when creating pages, which would take 2-3 hours max.
 def main():
-    logging.info("Statistics:\n%s\n", site.siteinfo["statistics"])
-
     articles = get_articles()
 
     created = 0
@@ -191,35 +153,41 @@ def main():
     errors = 0
 
     logging.info("Starting...")
-    logging.info(f"\tCategory:\t{CATEGORY if CATEGORY else "allpages"}")
+    logging.info(f"\tFile:\t\t{sys.argv[1]}")
     logging.info(f"\tDry run:\t{DRY_RUN}")
     logging.info(f"\tLimit:\t\t{LIMIT}")
 
     if should_halt():
         return
 
-    for original_page in articles:
-        original_title = original_page.title()
+    for page in articles:
+        target_title = page.title()
 
-        lower_title = original_title.capitalize() # Pure sentence case, no proper nouns yet
-        new_c, new_s, new_e = try_to_redirect(original_page, original_title, lower_title)
-        created += new_c
-        skipped += new_s
-        errors += new_e
+        shortcuts = get_shortcuts(page)
+        if not shortcuts:
+            logging.info(f"SKIP: no {{{{{TEMPLATE_NAME}}}}} found: {page.title()}")
+            skipped += 1
+            continue
 
-        lower_title = restore_proper_nouns(lower_title) # Sentence case + proper nouns
-        new_c, new_s, new_e = try_to_redirect(original_page, original_title, lower_title)
-        created += new_c
-        skipped += new_s
-        errors += new_e
+        stop = False
+        for shortcut_title, anchor_name in shortcuts:
+            new_c, new_s, new_e = try_to_redirect(shortcut_title, target_title, anchor_name)
+            created += new_c
+            skipped += new_s
+            errors += new_e
 
-        if LIMIT > 0 and created >= LIMIT:
-            logging.info("LIMIT enabled; stopping here")
-            break
+            if LIMIT > 0 and created >= LIMIT:
+                logging.info("LIMIT enabled; stopping here")
+                stop = True
+                break
 
-        # Occasionally check for manual override,
-        # but only if we recently did anything (this is a slow check).
-        if new_c > 0 and created % HALT_FREQUENCY == 0 and should_halt():
+            # Occasionally check for manual override,
+            # but only if we recently did anything (this is a slow check).
+            if new_c > 0 and created % HALT_FREQUENCY == 0 and should_halt():
+                stop = True
+                break
+
+        if stop:
             break
 
     logging.info("Done.")
