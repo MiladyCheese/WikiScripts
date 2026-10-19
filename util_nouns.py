@@ -39,6 +39,8 @@ PROPER_NOUNS = [
     [r"\bRunecrafting\b", "Runecrafting"],
     [r"\bWoodcutting\b", "Woodcutting"],
     [r"\bPrayer\b(?! point)", "Prayer"],
+    [r"\bSlayer\b", "Slayer"],
+    [r"\bHunter\b", "Hunter"],
     "Cape of Accomplishment",
     "Capes of Accomplishment",
 
@@ -164,6 +166,8 @@ PROPER_NOUNS = [
     "Cave of Screams",
     "Kharidian Desert",
     "River Noumenon",
+    "Bloody Barrows",
+    "Ailddinas",
 
     # Shops
     "Death's Exchange",
@@ -562,6 +566,7 @@ PROPER_NOUNS = [
     "Mucher",
     "Putrillus",
     "Lougrim",
+    "Nos Prince Brothers",
 
     # Emotes
     "Grab Attention",
@@ -612,6 +617,9 @@ PROPER_NOUNS = [
     "Mod Grimm",
     "Mod Malcolm"
     "Mod Skips",
+    "Mod MiR",
+    "Mod North",
+    "Mod Mors",
     # Plus others not in category:
     "Jagex",
     "RuneScape",
@@ -674,6 +682,7 @@ PROPER_NOUNS = [
     "Mucksplosion",
     "Vengeance",
     "Home Teleport",
+    "Enfeeble",
 
     # Perks: https://dragonwilds.runescape.wiki/w/Template:Perks?action=edit
     "Arcane Aligned",
@@ -949,7 +958,7 @@ PROPER_NOUNS = [
     "Castle Extra",
     "Hall of Heroes",
     "The Story So Far",
-
+    "Cthonian Contracts - Tying Evil Up In Knots",
 
     # Music tracks: https://dragonwilds.runescape.wiki/w/Category:Music_tracks
     "A Wild World To Tame",
