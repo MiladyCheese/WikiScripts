@@ -32,7 +32,7 @@ PROPER_NOUNS = [
     [r"\bConstruction\b", "Construction"],
     [r"\bCooking(?! range| pot| potion)\b", "Cooking"],
     [r"(?<!tree )\bFarming(?! plot| tool)\b", "Farming"],
-    [r"(?:(?<!net )(?<!rod ))\bFishing\b(?! rod| net| tool| bait| node| spot| barrel)", "Fishing"],
+    [r"(?<!net )(?<!rod )\bFishing\b(?! rod| net| tool| bait| node| spot| barrel)", "Fishing"],
     [r"\bMagic\b(?! carpet| weapon)", "Magic"],
     [r"\bMining\b", "Mining"],
     [r"\b(?<!de)Ranged\b(?! weapon)", "Ranged"],
@@ -40,7 +40,7 @@ PROPER_NOUNS = [
     [r"\bWoodcutting\b", "Woodcutting"],
     [r"\bPrayer\b(?! point)", "Prayer"],
     [r"\bSlayer\b", "Slayer"],
-    [r"\bHunter\b", "Hunter"],
+    [r"(?<!mossbeak )(?<!mossbreak )\bHunter\b(?! stagbow)", "Hunter"],
     "Cape of Accomplishment",
     "Capes of Accomplishment",
 
@@ -630,6 +630,7 @@ PROPER_NOUNS = [
     "RuneFest",
     "Alpha Test",
     "Alpha Challenge Cape DLC",
+    "Eye on Ashenfall",
 
     # Special attacks: TODO
     "Abyssal Snare",
